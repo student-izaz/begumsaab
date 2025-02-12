@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import CartMessage from "../CartMessage/CartMessage";
+import { useAuth } from "../../Store/auth";
+// import { getCartItems } from "../../services/cartservice";
 
 const Cart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
+  const {user} = useAuth();
 
   // Disable page scrolling when cart is open
   useEffect(() => {
@@ -15,22 +19,29 @@ const Cart = ({ isOpen, onClose }) => {
     return () => (document.body.style.overflow = "auto");
   }, [isOpen]);
 
-  const fetchCartItems = async () => {
-    try {
-      const userId = "672f1920d55a3749fc7b3ec2"; // Replace with actual user ID
-      const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
-      const data = await response.json();
+  useEffect(() => {
+    if (user) {
+      const fetchCartItems = async () => {
+        try {
+          const userId = user._id; 
+          const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
+          const data = await response.json();
+        
+          if (response.ok) {
+            setCartItems(data.cartItems);
+          } else {
+            console.error(data.message);
+          }
+        } catch (error) {
+          console.error("Failed to fetch cart items", error);
+        } finally {
+          setLoading(false); // Set loading to false when fetch is complete
+        }
+      };
 
-      if (response.ok) {
-        setCartItems(data.cartItems);
-        console.log(cartItems[0]);
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Failed to fetch cart items", error);
+      fetchCartItems();
     }
-  };
+  }, [user]);
 
   const removeCartItem = async (productId) => {
     try {
@@ -40,15 +51,15 @@ const Cart = ({ isOpen, onClose }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: "672f1920d55a3749fc7b3ec2", // Replace with actual user ID
+          userId: user._id, 
           productId,
         }),
       });
 
       const data = await response.json();
-
+      
       if (response.ok) {
-        setCartItems(data.cartItems); // Update state after removal
+        setCartItems( data.cartItems); // Update state after removal
       } else {
         console.error(data.message);
       }
@@ -57,8 +68,16 @@ const Cart = ({ isOpen, onClose }) => {
     }
   };
 
+  const findSubTotal = () => {
+    let subTotal = 0;
+    cartItems.map((item)=>{
+      subTotal += item.productId.price*item.quantity;
+    })
+    return subTotal;
+  }
+
   useEffect(() => {
-    fetchCartItems();
+    findSubTotal();
   }, []);
 
   return (
@@ -86,7 +105,7 @@ const Cart = ({ isOpen, onClose }) => {
                     <span>+</span>
                   </div>
                   <div className="item-price">
-                    <p className="item-price">₹ {item.productId.price}</p>
+                    <p className="item-price">₹ {item.productId.price*item.quantity}</p>
                   </div>
                 </div>
               </div>
@@ -107,6 +126,18 @@ const Cart = ({ isOpen, onClose }) => {
               </button>
             </div>
           ))}
+
+          <div className="cart-footer">
+            <div className="cart-footer-content">
+              <div className="cart-subtotal">
+                <p>SUBTOTAL</p>
+                <p>{`₹ ${findSubTotal()}`}</p>
+              </div>
+              <p className="checkout-btn">
+                <a href="/checkout">CHECKOUT</a>
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -8,9 +8,9 @@ const register = async (req, res) => {
     const { username, phone, email, password } = req.body;
     const user = new User({ username, phone, email, password });
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "Registered Successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Registration failed" });
+    res.status(500).json({ error: "Failed Register" });
   }
 };
 
@@ -19,7 +19,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ msg: "Invalid credentials" });
     } 
 
     const token = jwt.sign(
@@ -30,12 +30,12 @@ const login = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "30d",
       }
     );
     await User.updateOne({ _id: user._id }, { $set: { refreshToken: token } });
-    res.json({ token, id: user._id, msg: "Login Successfully!" });
-    console.log("logedin");
+    res.json({ token, id: user._id, msg: "You are login!" });
+    // console.log("logedin");
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }

@@ -1,8 +1,10 @@
+.sub-header{
+    padding: 30px 0 0 50px;
+}
 .site-single-product{
     width: 100%;
     padding: 50px;
     display: flex;
-    /* justify-content: space-between; */
     column-gap: 30px;
     margin-bottom: 100px;
 }
@@ -77,6 +79,12 @@
         flex-direction: column;
         row-gap: 20px;
         padding:  20px;
+    }
+    .sub-header{
+        padding: 20px 0 0 20px;
+    }
+    .trust-badge-box img{
+        height: 100%;
     }
 }
 

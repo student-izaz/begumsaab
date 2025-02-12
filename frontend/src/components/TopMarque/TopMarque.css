@@ -1,0 +1,7 @@
+.top-marque{
+    height: 30px;
+    padding: 5px 0;
+    background-color: rgba(85, 7, 0, 1);
+    color: white;
+    text-transform: uppercase;
+}

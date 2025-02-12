@@ -3,14 +3,21 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
 import './index.css';
 import App from './App.jsx'
-import CategoryPage from './pages/CategoryPage/CategoryPage.jsx';
-import CategoryList from './components/CategoryList/CategoryList.jsx';
+import ShowProductByCategoryPage from './pages/ShowProductsByCategoryPage/ShowProductsByCategory.jsx';
+import Home from './pages/Home/Home.jsx'
 import LoginRegister from './components/CreateAccount.jsx/LoginRegister.jsx';
 import SingleProductPage from './pages/SingleProductPage/SingleProductPage.jsx';
 import OriginalPakistanWearPage from './pages/OriginalPakistanWearPage/OriginalPakistanWearPage.jsx';
-import FileUpload from './components/FileUpload/FileUpload.jsx';
 import { AuthProvider } from './Store/auth.jsx';
 import Logout from './components/Logout/Logout.jsx';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage.jsx';
+import { ToastContainer } from 'react-toastify';
+import AdminLayout from './Admin/AdminLayout/AdminLayout.jsx';
+import AdminLogin from './Admin/AdminLogin/AdminLogin.jsx';
+import AdminDashboard from './Admin/AdminDashboard/AdminDashboard.jsx';
+import AddProduct from './Admin/AddProduct/AddProduct.jsx';
+import AllProducts from './Admin/AllProducts/AllProducts.jsx';
+import AddCategory from './Admin/AddCategory/AddCategory.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,15 +26,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <CategoryList />,
-      },
-      {
-        path: "/",
-        element: <CategoryList />,
+        element: <Home />,
       },
       {
         path: "/category/:category",
-        element: <CategoryPage />,
+        element: <ShowProductByCategoryPage />,
       },
       {
         path: "/my-account",
@@ -38,6 +41,10 @@ const router = createBrowserRouter([
         element: <Logout/>,
       },
       {
+        path: "/checkout",
+        element: <CheckoutPage/>,
+      },
+      {
         path: "/product/:productId",
         element: <SingleProductPage/>
       },
@@ -46,9 +53,40 @@ const router = createBrowserRouter([
         element: <OriginalPakistanWearPage/>
       },
       {
-        path: "/file-upload",
-        element: <FileUpload/>
-      }
+        path: "*",
+        element: <Error/>,
+      },
+    ]
+  },
+  {
+    path: "/admin/login",
+    element: <AdminLogin/>
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout/>,
+    children: [
+      {
+        path: "/admin",
+        element: <AdminDashboard/>
+      },
+      {
+        path: "add-product",
+        element: <AddProduct/>
+      },
+      {
+        path: "all-products",
+        element: <AllProducts/>
+      },
+      {
+        path: "add-category",
+        element: <AddCategory/>
+      },
+      {
+        path: "*",
+        element: <Error/>,
+      },
+      
     ]
   }
 ]);
@@ -58,6 +96,7 @@ createRoot(document.getElementById('root')).render(
   <AuthProvider>
   <StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer/>
   </StrictMode>,
   </AuthProvider>  
 )

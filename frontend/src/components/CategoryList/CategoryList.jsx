@@ -3,7 +3,6 @@ import './CategoryList.css'
 import React, { useEffect, useState } from 'react';
 import { fetchCategories } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
-import Main from '../../pages/Main';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -14,6 +13,7 @@ const CategoryList = () => {
       const data = await fetchCategories();
       setCategories(data);
     };
+    console.log(categories)
     getCategories();
   }, []);
 
@@ -23,7 +23,6 @@ const CategoryList = () => {
 
   return (
     <>
-    <Main/>
     <div className="category-list">
       {categories.map((cat) => (
         <div key={cat._id} className="category-item" onClick={() => handleCategoryClick(cat.name)}>

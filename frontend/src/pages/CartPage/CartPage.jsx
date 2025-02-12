@@ -5,6 +5,7 @@ import CartMessage from '../../components/CartMessage/CartMessage';
 
 const CartPage = ({ userId }) => {
   const [cart, setCart] = useState(null);
+
     const userId = '672f1920d55a3749fc7b3ec2';
   const fetchCart = async () => {
     const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
@@ -18,7 +19,7 @@ const CartPage = ({ userId }) => {
 
   return (
     <div>
-      {/* {cart ? <Cart cart={cart} userId={userId} refreshCart={fetchCart} /> : 'Loading...'} */}
+      {cart ? <Cart cart={cart} userId={userId} refreshCart={fetchCart} /> : 'Loading...'}
       <CartMessage />
     </div>
   );

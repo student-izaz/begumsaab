@@ -1,15 +1,16 @@
 import React from "react";
 import "./SingleProduct.css";
 import { addToCart } from "../../services/cartservice";
+import { useAuth } from "../../Store/auth";
 
 const SingleProduct = ({ product }) => {
-
+  const {user} = useAuth();
   const handleAddToCart = async (userId, productId, productName) => {
     const data = await addToCart(userId, productId);
-    setcartItemsIds(data.products);
     alert(`Item add in cart : ${productName}`);
   };
   
+  return (
   <>
     <div className="sub-header">
       <p>{`Home / ${product.name}`}</p>
@@ -20,7 +21,6 @@ const SingleProduct = ({ product }) => {
       </div>
       <div className="single-product-details">
         <h1 className="product-title">{product.name}</h1>
-        {/* <p>{product.description}</p> */}
         <h2 className="product-price">
           ₹<span className="org-price">6000</span>₹{product.price}
         </h2>
@@ -35,7 +35,7 @@ const SingleProduct = ({ product }) => {
         <button
           className="add-to-cart-btn"
           onClick={() =>
-            handleAddToCart("672f1920d55a3749fc7b3ec2", item._id, item.name)
+            handleAddToCart(user._id, product._id, product.name)
           }
         >
           Add To Cart
@@ -46,7 +46,8 @@ const SingleProduct = ({ product }) => {
         </div>
       </div>
     </div>
-  </>;
+  </>
+  );
 };
 
 export default SingleProduct;

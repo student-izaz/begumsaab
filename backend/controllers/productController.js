@@ -58,17 +58,18 @@ const getSingleProductById = async (req, res) => {
 };
 
 const findRelatedProducts = async (req, res) => {
-    const category = req.params;
-    console.log(category);
-    try {
-      const products = await Product.find();
-      res.status(200).json(products);
-      console.log(products)
-    } catch (error) {
-      res.status(500).json({msg: "Not find releted products ",error});
-      console.log("Not find releted products ",error)
-    }
-}
+  const category = req.params;
+  try {
+    const products = await Product.find({
+      category: category.byCategory,
+      _id: { $ne: category.id },
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ msg: "Not find releted products ", error });
+    console.log("Not find releted products ", error);
+  }
+};
 
 module.exports = {
   createProduct,

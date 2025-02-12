@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// File Upload Handler
-const uploadFile = async (req, res) => {
+// File Upload Handler  
+const addProduct = async (req, res) => {
   const file = req.file.path;
   try {
     const { name, category, price, description, tags } = req.body;
@@ -52,4 +52,4 @@ const uploadFile = async (req, res) => {
   }
 };
 
-module.exports = { upload, uploadFile };
+module.exports = { upload, addProduct };

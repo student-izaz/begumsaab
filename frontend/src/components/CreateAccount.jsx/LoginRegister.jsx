@@ -2,14 +2,17 @@ import React from "react";
 import { useState } from "react";
 import "./LoginRegister.css";
 import { useAuth } from "../../Store/auth";
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const LoginRegister = () => {
-    const [isLogin, setIsLogin] = useState(true);  // Toggle between login and register
+  const [isLogin, setIsLogin] = useState(true);  // Toggle between login and register
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const { StoreTokenInLS } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,8 +23,8 @@ const LoginRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
-
+    setIsLogin(false)
+    console.log(e)
     const url = isLogin ? "http://localhost:5000/api/auth/login" : "http://localhost:5000/api/auth/register";
     const method = "POST";
     const headers = { "Content-Type": "application/json" };
@@ -32,15 +35,20 @@ const LoginRegister = () => {
 
       if(response.ok){
         const login_data = await response.json();
-        console.log(login_data)
+        console.log('login',login_data)
         StoreTokenInLS(login_data.token)
+        toast.success(login_data.msg)
         setFormData({
           email: "",
           password: "",
         })
+        navigate('/')
+      }else{
+        const error_msg = await response.json();
+        toast.error(error_msg.msg)
       }
     } catch (error) {
-      console.error("Error:", error);
+      // toast.error(login_data);
       alert("Something went wrong!");
     }
   };
@@ -56,7 +64,7 @@ const LoginRegister = () => {
               <input
                 type="text"
                 name="email"
-                value={formData.name}
+                value={formData.email}
                 onChange={handleChange}
                 required
                 autoComplete="email"
@@ -65,9 +73,9 @@ const LoginRegister = () => {
             <div className="input-field">
               <label htmlFor="password">Password*</label>
               <input
-                type="text"
+                type="password"
                 name="password"
-                value={formData.name}
+                value={formData.password}
                 onChange={handleChange}
                 required
                 autoComplete="name"
@@ -85,7 +93,7 @@ const LoginRegister = () => {
         </div>
         <div className="register-form">
           <h2 className="form-heading">Register</h2>
-          <form action="" className="form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="input-field">
               <label htmlFor="email">Email address*</label>
               <input
@@ -99,7 +107,7 @@ const LoginRegister = () => {
             <div className="input-field">
               <label htmlFor="password">Password*</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 value={formData.name}
                 onChange={handleChange}

@@ -1,0 +1,83 @@
+.checkout-container{
+    padding: 20px;
+    margin: 70px 0;
+}
+
+
+form .personal_order_info{
+    flex-basis: 70%;
+}
+.checkout-container .checkout-review-order{
+    height: 100%;
+    flex-basis: 30%;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+.form-row label{
+    color: rgba(85, 7, 0, 1);
+}
+input{
+    border: 0;
+    outline: non;
+}
+.input-text{
+    padding: 14px;
+    border: 1px solid #cccbcb;
+    border-radius: 4px;
+}
+.heading{
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(85, 7, 0, 1);
+}
+.row-2 .product-name{
+    color: #5f5f5f;
+}
+.total-amt{
+    font-size: 20px;
+    padding: 15px 0;
+}
+.order-review-row{
+    padding: 10px 0;
+    border-bottom: 1px solid #cccbcb;
+}
+.order-review-row .price,.subtotal,.total,.text
+{
+    color: rgba(85, 7, 0, 1);
+}
+.rzp-img img{
+    width: 200px;
+}
+.privacy-policy-text{
+    font-size: 15px;
+    line-height: 30px;
+}
+.privacy-policy-link,.term-and-condition-link{
+    color: #AEA91F;
+}
+.term-and-condition-checkbox-text{
+    font-size: 14px;
+    color: rgba(85, 7, 0, 1);
+    line-height: 30px;
+}
+.proceed-to-pay-btn{
+    padding: 15px;
+    border: 0;
+    outline: none;
+    background-color: rgba(85, 7, 0, 1);
+    color: #ffffff;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 500px) {
+    .checkout-container{
+        margin: 30px 0;
+    }
+    .checkout-form{
+        flex-direction: column;
+        row-gap: 60px;
+    }
+}

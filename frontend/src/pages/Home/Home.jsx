@@ -1,8 +1,10 @@
 import React from "react";
-import "./Main.css";
+import "./Home.css";
+import CategoryList from "../../components/CategoryList/CategoryList";
 
-const Main = () => {
+const Home = () => {
   return (
+    <>
     <main className="site-main">
       <div className="main-content">
         <img src="../../../assets/main.webp" alt="" className="main-img" />
@@ -19,7 +21,9 @@ const Main = () => {
         </div>
       </div>
     </main>
+    <CategoryList/>
+    </>
   );
 };
 
-export default Main;
+export default Home;

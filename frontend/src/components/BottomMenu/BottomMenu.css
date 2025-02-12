@@ -11,7 +11,7 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
-    min-height: 60px;
+    min-height: 50px;
     padding: 0 150px;
     margin-bottom: 10px;
 }
@@ -21,16 +21,16 @@
     align-items: center;
     justify-content: space-between;
 }
-.bottom-menu .icon{
+.bottom-menu-content nav .icon{
     color: rgba(85, 0, 0, 1);
-    font-size: 30px;
+    font-size: 24px;
 }
 .bottom-menu-content nav a{
     text-align: center;
     position: relative;
 }
 .bottom-menu-content .bottom-menu-text{
-    font-size: 14px;
+    font-size: 13px;
     font-family: 'Adamina', sans-serif;
     font-weight: 400;
     line-height: 0px;

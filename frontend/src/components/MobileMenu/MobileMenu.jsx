@@ -45,6 +45,7 @@ export default MobileMenu;
 
 export const MenuList = () => {
   const { isLoggedIn } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="menu-list">
@@ -71,16 +72,22 @@ export const MenuList = () => {
             <a href="/logout">Logout</a>
           </li>
         )}
+        {user.isAdmin ? <li>
+            <a href="/admin">Admin</a>
+          </li> : "" }
       </ul>
     </div>
   );
 };
 
 export const CategoryList = () => {
+  const [selectCategory, setSelectCategory] = useState(null)
+  console.log(selectCategory)
+
   return (
     <div className="menu-list">
       <ul>
-        <li>Adan’s Libas Fuchsia Chapter 1</li>
+        <li onClick={()=>setSelectCategory("adan's libas fuchsia chapter1 1")}>Adan’s Libas Fuchsia Chapter 1</li>
         <li>Alizeh Dhaagay Vol-2</li>
         <li>Alizeh Mehfil-e-Uroos</li>
         <li>Asim Jofa Aira Collection</li>

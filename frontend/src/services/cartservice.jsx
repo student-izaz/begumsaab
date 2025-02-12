@@ -18,6 +18,7 @@ export const removeFromCart = async (userId, productId) => {
   return response.json();
 };
 
+
 export const getCartItems = async (cartItemsIds) => {
   const response = await fetch(`http://localhost:5000/api/cart/${cartItemsIds}`);
   return response.json();

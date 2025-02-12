@@ -3,13 +3,15 @@ import SingleItem from "../SingleItem/SingleItem";
 import './RelatedProducts.css';
 
 const RelatedProducts = ({ product }) => {
+  // console.log(product)
     
   const [relatedProducts, setRelatedProducts] = useState(null);
   const byCategory = product.category;
+  const id = product._id;
 
   const findRelatedProducts = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/products/related-products/:${byCategory}`
+      `http://localhost:5000/api/products/related-products/${byCategory}/${id}`
     );
     const data = await response.json();
     if (response.ok) {

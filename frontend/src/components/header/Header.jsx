@@ -1,5 +1,4 @@
 import "./Header.css";
-import { useContext } from "react";
 import { CiSearch } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";

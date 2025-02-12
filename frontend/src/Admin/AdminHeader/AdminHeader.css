@@ -1,0 +1,12 @@
+.admin-header{
+    border-bottom: 1px solid #ddd;
+}
+.admin-header .logo{
+    width: 270px;
+}
+
+@media screen and (max-width: 670px) {
+    .admin-header .logo{
+        width: 200px;
+    }
+}

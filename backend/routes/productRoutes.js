@@ -9,6 +9,6 @@ router.post("/add", authenticate, productController.createProduct); // Route for
 router.get("/", productController.getAllProducts); // Route for getting all products
 router.get("/category/:category", productController.getProductsByCategory); // Route to get products by category
 router.get("/:productId", productController.getSingleProductById); //Route to get single product
-router.get("/related-products/:byCategory", productController.findRelatedProducts);
+router.get("/related-products/:byCategory/:id", productController.findRelatedProducts);
 
 module.exports = router;

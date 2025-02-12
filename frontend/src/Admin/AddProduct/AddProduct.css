@@ -1,0 +1,10 @@
+.add-product-container{
+    width: 100%;
+}
+.add-product-container form{
+    width: 80%;
+}
+#select_file{
+    height: 150px;
+    width: 50%;
+}

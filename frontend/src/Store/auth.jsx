@@ -4,7 +4,9 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
+    const [user, setUser] = useState("");
     const authorizationToken = token;
+    const [userLoading, setUserLoading] = useState(true)
 
     const logoutUser = () => {
         setToken("");
@@ -16,11 +18,9 @@ export const AuthProvider = ({ children }) => {
     }
 
     let isLoggedIn = !!token;
-    if (isLoggedIn){
-        // console.log("isLoggedIn", isLoggedIn);
-    };
 
     const userAuthentication = async () => {
+        setUserLoading(true)
         try {
             const response = await fetch('http://localhost:5000/api/auth/user', {
                 method: 'GET',
@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
             if(response.ok){
                 const data = await response.json();
                 setUser(data);
+                setUserLoading(false);
             }
         } catch (error) {
             
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{  isLoggedIn, StoreTokenInLS, logoutUser, authorizationToken, userAuthentication }}>
+        <AuthContext.Provider value={{  isLoggedIn, user, StoreTokenInLS, logoutUser, authorizationToken, userAuthentication, userLoading }}>
             {children}
         </AuthContext.Provider>
     )

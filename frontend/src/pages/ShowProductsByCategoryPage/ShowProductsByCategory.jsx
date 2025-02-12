@@ -5,7 +5,7 @@ import ProductList from '../../components/ProductList/ProductList';
 import { useParams } from 'react-router-dom';
 import ShowMessage from '../../components/ShowMessage/ShowMessage';
 
-const CategoryPage = () => {
+const ShowProductByCategoryPage = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]); // Initialize as an empty array
 
@@ -25,9 +25,8 @@ const CategoryPage = () => {
   return (
     <div>
       {products.length >= 0 ? <ProductList products={products} /> : <ShowMessage message={"Sorry, No Product In This Category..."}/>}
-      
     </div>
   );
 };
 
-export default CategoryPage;
+export default ShowProductByCategoryPage;

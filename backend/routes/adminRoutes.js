@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const authenticate = require('../middlewares/authMiddleware');
-const adminController = require('../controllers/adminController');
+const {adminLogin, addCategory, allProducts} = require('../controllers/adminController')
 
-router.get('/', authenticate, adminMiddleware, adminController.admin );
+router.post('/login', authenticate, adminMiddleware, adminLogin );
+router.post('/category/add', authenticate, adminMiddleware, addCategory );
+router.get('/all-products', authenticate, adminMiddleware, allProducts)
 
 module.exports = router;
