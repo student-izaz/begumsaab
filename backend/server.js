@@ -10,6 +10,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const originalPakistanWearRoutes = require('./routes/originalPakistanWearRoutes');
 const AddProductRoutes = require('./routes/AddProductRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const checkoutRoutes = require('./routes/checkoutRoutes');
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,9 @@ app.use("/api/products", productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/product-category', originalPakistanWearRoutes);
+
+// Checkout Routes
+app.use("/api/checkout", checkoutRoutes);
 
 // Admin Routes
 app.use('/api/product', AddProductRoutes);

@@ -19,3 +19,10 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+
+// const connectDB = async () => {
+//     await mongoose.connect('mongodb+srv://izaz:837690@cluster0.yma94.mongodb.net/begumsaab_DB').then(()=>console.log('Db connected...'))
+// } 
+
+// module.exports = connectDB;

@@ -66,3 +66,32 @@ exports.getCartItems = async (req, res) => {
   }
 };
 
+// Update quantity of a product in the cart
+exports.updateCartItemQuantity = async (req, res) => {
+    try {
+        const { itemId, userId, action} = req.params; // Get user ID, product ID & action (+/-)
+
+        let updateQuery = {};
+        if (action === "increase") {
+            updateQuery = { $inc: { "products.$.quantity": 1 } }; // Increase quantity
+        } else if (action === "decrease") {
+            updateQuery = { $inc: { "products.$.quantity": -1 } }; // Decrease quantity
+        }
+
+        const updatedCart = await Cart.findOneAndUpdate(
+            { userId, "products.productId": itemId }, // Find cart of the user & product
+            updateQuery,
+            { new: true } // Return updated cart
+        );
+
+        if (!updatedCart) {
+            return res.status(404).json({ message: "Cart item not found!" });
+        }
+
+        res.json(updatedCart);
+    } catch (error) {
+        res.status(500).json({ message: "Server Error", error });
+    }
+};
+
+

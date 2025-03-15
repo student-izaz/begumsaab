@@ -10,7 +10,7 @@ const register = async (req, res) => {
     await user.save();
     res.status(201).json({ message: "Registered Successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Failed Register" });
+    res.status(500).json({ error: "Failed Register😒" });
   }
 };
 

@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { IoIosMenu } from "react-icons/io";
 
 
-const Header = ({toggleCart, toggleMobileMenu}) => {
-  
+const Header = ({toggleCart, toggleMobileMenu, cartItem}) => {
+
   return (
     <header className="site-header">
       <div className="site-header-content">
@@ -37,7 +37,7 @@ const Header = ({toggleCart, toggleMobileMenu}) => {
           </div>
           <div className="cart_icon icon" onClick={toggleCart}>
             <CiShoppingCart />
-            <span>0</span>
+            <span>{cartItem.length}</span>
           </div>
         </div>
       </div>

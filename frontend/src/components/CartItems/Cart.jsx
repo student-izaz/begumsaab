@@ -7,7 +7,7 @@ import { useAuth } from "../../Store/auth";
 const Cart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   // Disable page scrolling when cart is open
   useEffect(() => {
@@ -23,10 +23,12 @@ const Cart = ({ isOpen, onClose }) => {
     if (user) {
       const fetchCartItems = async () => {
         try {
-          const userId = user._id; 
-          const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
+          const userId = user._id;
+          const response = await fetch(
+            `http://localhost:5000/api/cart/${userId}`
+          );
           const data = await response.json();
-        
+
           if (response.ok) {
             setCartItems(data.cartItems);
           } else {
@@ -41,7 +43,7 @@ const Cart = ({ isOpen, onClose }) => {
 
       fetchCartItems();
     }
-  }, [user]);
+  }, [user, cartItems]);
 
   const removeCartItem = async (productId) => {
     try {
@@ -51,15 +53,15 @@ const Cart = ({ isOpen, onClose }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user._id, 
+          userId: user._id,
           productId,
         }),
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
-        setCartItems( data.cartItems); // Update state after removal
+        setCartItems(data.cartItems); // Update state after removal
       } else {
         console.error(data.message);
       }
@@ -70,15 +72,23 @@ const Cart = ({ isOpen, onClose }) => {
 
   const findSubTotal = () => {
     let subTotal = 0;
-    cartItems.map((item)=>{
-      subTotal += item.productId.price*item.quantity;
-    })
+    cartItems.map((item) => {
+      subTotal += item.productId.price * item.quantity;
+    });
     return subTotal;
-  }
+  };
 
   useEffect(() => {
     findSubTotal();
   }, []);
+
+  const updateQuantity = async (item, action) => {
+    const userId = user._id;
+    const itemId = item.productId._id;
+    await fetch(
+      `http://localhost:5000/api/cart/updateItemQuantity/${itemId}/${userId}/${action}`
+    );
+  };
 
   return (
     <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
@@ -99,13 +109,23 @@ const Cart = ({ isOpen, onClose }) => {
               <div className="cart-item-content">
                 <p className="item-title">{item.productId.name}</p>
                 <div className="handle-item-price">
-                  <div className="item-quantity">
-                    <span>-</span>
+                  <div className="update-quantity">
+                    {item.quantity === 1 ? (
+                      ""
+                    ) : (
+                      <span onClick={() => updateQuantity(item, "decrease")}>
+                        -
+                      </span>
+                    )}
                     <p>{item.quantity}</p>
-                    <span>+</span>
+                    <span onClick={() => updateQuantity(item, "increase")}>
+                      +
+                    </span>
                   </div>
                   <div className="item-price">
-                    <p className="item-price">₹ {item.productId.price*item.quantity}</p>
+                    <p className="item-price">
+                      ₹ {item.productId.price * item.quantity}
+                    </p>
                   </div>
                 </div>
               </div>

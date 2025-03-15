@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import "./CheckoutPage.css";
 import { useAuth } from "../../Store/auth";
+import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Added loading state  
+  const [loading, setLoading] = useState(true); // Added loading state
+  const [totalAmount, setTotalAmount] = useState(0);  
   const {user} = useAuth();
 
   const [checkoutInfo, setCheckoutInfo] = useState({
-    first_name: "",
+    first_name: user.username,
     last_name: "",
     country: "",
     address: "",
     city: "",
     state: "",
     pin_code: "",
-    phone: "",
-    email: "",
+    phone: user.phone,
+    email: user.email,
     payment_mode: "",
   });
+
+  console.log(checkoutInfo.email) 
 
   const handleChange = (e) => {
     setCheckoutInfo({
@@ -27,12 +31,28 @@ const CheckoutPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:5000/api/checkout/payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(checkoutInfo),
+      });
+    
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.msg || "Payment failed");
+    
+      toast.success(data.msg);
+    } catch (error) {
+      toast.error(error.message);
+    }
+    
+
   };
 
   useEffect(() => {
-      if (user) {
+      if (!user) return
         const fetchCartItems = async () => {
           try {
             const userId = user._id; 
@@ -52,19 +72,32 @@ const CheckoutPage = () => {
         };
   
         fetchCartItems();
-      }
+      
     }, [user]);
 
-    const amountDetail = () => {
-      let total = 0;
-      cartItems.map((item) => {
-        total+=item.productId.price 
-      })
-      return total;
-    }
-    useEffect(()=>{
-      amountDetail();
-    })
+    // const amountDetail = () => {
+    //   let total = 0;
+    //   cartItems.map((item) => {
+    //     total+=item.productId.price 
+    //   })
+    //   return total;
+    // }
+    // useEffect(()=>{
+    //   amountDetail();
+    // })
+
+
+useEffect(() => {
+  const calculateTotal = () => {
+    let total = 0;
+    cartItems.forEach((item) => {
+      total += item.productId.price * item.quantity;
+    });
+    setTotalAmount(total);
+  };
+  calculateTotal();
+}, [cartItems]); 
+
 
   return (
     <div className="checkout-container">
@@ -193,14 +226,14 @@ const CheckoutPage = () => {
             {
               cartItems.map((item)=>(
                 <div key={item._id} className="order-review-row row-2 flex align-center space-btw">
-              <p className="product-name">{item.productId.name}</p>
-              <p className="price">{item.productId.price}</p>
+              <p className="product-name">{`${item.productId.name} x ${item.quantity}`}</p>
+              <p className="price">{item.productId.price*item.quantity}</p>
             </div>
               ))
             }
             <div className="order-review-row flex align-center space-btw">
               <p className="text">Subtotal</p>
-              <p className="subtotal">{amountDetail()}</p>
+              <p className="subtotal">{totalAmount}</p>
             </div>
             <div className="order-review-row">
               <p className="text">Shipping</p>
@@ -208,20 +241,23 @@ const CheckoutPage = () => {
             </div>
             <div className="order-review-row total-amt flex align-center space-btw">
               <p className="text">Total</p>
-              <p className="total">{amountDetail()}</p>
+              <p className="total">{totalAmount}</p>
             </div>
           </div>
           <div className="checkout-payment flex flex-col rg-20">
             <ul className="flex flex-col rg-10">
               <li className="flex col-gap-10">
+
                 <input
-                  type="radio"
-                  name="payment_mode"
-                  id="cash_on_delivery"
-                  onChange={handleChange}
-                  value="cash_on_delivery"
-                  required
-                />
+  type="radio"
+  name="payment_mode"
+  id="cash_on_delivery"
+  onChange={handleChange}
+  value="cash_on_delivery"
+  checked={checkoutInfo.payment_mode === "cash_on_delivery"}
+  required
+/>
+
                 <label htmlFor="">Cash on delivery</label>
               </li>
               <li className="flex col-gap-10">
@@ -257,7 +293,7 @@ const CheckoutPage = () => {
               <p>
                 Your personal data will be used to process your order, support
                 your experience throughout this website, and for other purposes
-                described in our
+                described in our {" "}
                 <a href="#" className="privacy-policy-link">
                   privacy policy.
                 </a>
@@ -266,9 +302,9 @@ const CheckoutPage = () => {
             <label className="flex col-gap-10">
               <input type="checkbox" required/>
               <span className="term-and-condition-checkbox-text">
-                I have read and agree to the website
+                I have read and agree to the website 
                 <a href="#" className="term-and-condition-link">
-                  terms and conditions *
+                 {" "} terms and conditions *
                 </a>
               </span>
             </label>
