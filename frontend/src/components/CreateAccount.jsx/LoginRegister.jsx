@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import "./LoginRegister.css";
-import { useAuth } from "../../Store/auth";
+import { AuthContext,useAuth } from "../../Store/auth";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ const LoginRegister = () => {
     password: "",
   });
   const { StoreTokenInLS } = useAuth();
+  const { API_URL } = useContext(AuthContext)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,7 +26,7 @@ const LoginRegister = () => {
     e.preventDefault();
     setIsLogin(false)
     console.log(e)
-    const url = isLogin ? "http://localhost:5000/api/auth/login" : "http://localhost:5000/api/auth/register";
+    const url = isLogin ? `${API_URL}/api/auth/login` : `${API_URL}/api/auth/register`;
     const method = "POST";
     const headers = { "Content-Type": "application/json" };
     const body = JSON.stringify(formData);
