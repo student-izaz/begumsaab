@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     const authorizationToken = token;
     const [userLoading, setUserLoading] = useState(true)
 
-    const API_URL = "http://localhost:5000";
+    const API_URL = "https://begumsaab-backend.onrender.com";
 
     const logoutUser = () => {
         setToken("");
