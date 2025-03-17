@@ -16,12 +16,16 @@ dotenv.config();
 const app = express();
 connectDB();
 
-// Enable CORS for your frontend URL
-const corsOptions = {
-  origin: ["http://localhost:5173", "https://begumsaab.vercel.app"],
-  method: "GET, POST, DELETE, PATCH, PUT",
-  Credential: true,
-};
+app.use(
+  cors({
+    origin: "https://begumsaab.vercel.app", // Allow frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow required methods
+    credentials: true, // Allow cookies if needed
+  })
+);
+
+// Middleware to allow preflight requests
+app.options("*", cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
