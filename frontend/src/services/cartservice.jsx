@@ -9,8 +9,8 @@ export const addToCart = async (userId, productId, API_URL) => {
   return response.json();
 };
 
-export const removeFromCart = async (userId, productId) => {
-  const response = await fetch("http://localhost:5000/api/cart/remove", {
+export const removeFromCart = async (userId, productId, API_URL) => {
+  const response = await fetch(`${API_URL}/api/cart/remove`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId, productId }),
@@ -19,7 +19,7 @@ export const removeFromCart = async (userId, productId) => {
 };
 
 
-export const getCartItems = async (cartItemsIds) => {
-  const response = await fetch(`http://localhost:5000/api/cart/${cartItemsIds}`);
+export const getCartItems = async (cartItemsIds, API_URL) => {
+  const response = await fetch(`${API_URL}/api/cart/${cartItemsIds}`);
   return response.json();
 };

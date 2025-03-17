@@ -8,7 +8,10 @@ export const AuthProvider = ({ children }) => {
     const authorizationToken = token;
     const [userLoading, setUserLoading] = useState(true)
 
-    const API_URL = "http://localhost:5000";
+    const API_URL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5000"
+      : "https://your-app-name.onrender.com";
 
     const logoutUser = () => {
         setToken("");

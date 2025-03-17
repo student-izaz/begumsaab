@@ -12,9 +12,7 @@ const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartItem, setCartItem] = useState([]);
-  const {user,API_URL} = useContext(AuthContext);
-  // const API_URL = import.meta.env.VITE_API_URL;
-  console.log(API_URL)
+  const {user} = useContext(AuthContext);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);

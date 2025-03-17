@@ -1,13 +1,13 @@
-export const fetchProductDetails = async (productId) => {
+export const fetchProductDetails = async (productId,API_URL) => {
   const response = await fetch(
-    `http://localhost:5000/api/products/${productId}`
+    `${API_URL}/api/products/${productId}`
   );
   return response.json();
 };
 
-export const fetchOriginalPakistanWear = async () => {
+export const fetchOriginalPakistanWear = async (API_URL) => {
   const response = await fetch(
-    `${process.env.API_URL}/api/product-category/original-pakistani-suits`
+    `${API_URL}/api/product-category/original-pakistani-suits`
   );
   return response.json();
 };
