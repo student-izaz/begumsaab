@@ -1,5 +1,5 @@
 // src/pages/CategoryPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fetchProductsByCategory } from '../../api/api';
 import ProductList from '../../components/ProductList/ProductList';
 import { useParams } from 'react-router-dom';
