@@ -4,8 +4,8 @@ export const fetchCategories = async (API_URL) => {
   return data;
 };
 
-export const fetchProductsByCategory = async (category) => {
-  const response = await fetch(`http://localhost:5000/api/products/category/${category}`);
+export const fetchProductsByCategory = async (category, API_URL) => {
+  const response = await fetch(`${API_URL}/api/products/category/${category}`);
   const data = await response.json();
   return data;
 };
