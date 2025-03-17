@@ -18,7 +18,7 @@ connectDB();
 
 // Enable CORS for your frontend URL
 const corsOptions = {
-  origin: ["http://localhost:5173", "begumsaab-student-izazs-projects.vercel.app"],
+  origin: ["http://localhost:5173", "https://begumsaab.vercel.app"],
   method: "GET, POST, DELETE, PATCH, PUT",
   Credential: true,
 };
