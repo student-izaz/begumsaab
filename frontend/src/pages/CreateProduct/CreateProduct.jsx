@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './CreateProduct.css'
+import { AuthContext } from '../../Store/auth';
 
 const ProductForm = () => {
+  const {API_URL} = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -27,7 +29,7 @@ const ProductForm = () => {
     e.preventDefault();
     // console.log(formData)
     try {
-      const response = await fetch(`http://localhost:5000/api/products`, {
+      const response = await fetch(`${API_URL}/api/products`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

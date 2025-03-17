@@ -1,7 +1,7 @@
 //This file contains functions for interacting with the backend using the fetch API.
 
-export const addToCart = async (userId, productId) => {
-  const response = await fetch("http://localhost:5000/api/cart/add", {
+export const addToCart = async (userId, productId, API_URL) => {
+  const response = await fetch(`${API_URL}/api/cart/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId, productId }),

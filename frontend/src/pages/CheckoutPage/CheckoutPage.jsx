@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./CheckoutPage.css";
-import { useAuth } from "../../Store/auth";
+import { AuthContext, useAuth } from "../../Store/auth";
 import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
@@ -8,6 +8,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true); // Added loading state
   const [totalAmount, setTotalAmount] = useState(0);  
   const {user} = useAuth();
+  const {API_URL}= useContext(AuthContext)
 
   const [checkoutInfo, setCheckoutInfo] = useState({
     first_name: user.username,
@@ -34,7 +35,7 @@ const CheckoutPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/checkout/payment`, {
+      const response = await fetch(`${API_URL}/api/checkout/payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(checkoutInfo),
@@ -56,7 +57,7 @@ const CheckoutPage = () => {
         const fetchCartItems = async () => {
           try {
             const userId = user._id; 
-            const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
+            const response = await fetch(`${API_URL}/api/cart/${userId}`);
             const data = await response.json();
           
             if (response.ok) {

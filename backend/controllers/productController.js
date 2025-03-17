@@ -1,28 +1,11 @@
 const Product = require("../models/Product");
 
-// Create a new product
-const createProduct = async (req, res) => {
-  const { name, category, description, price, tags } = req.body;
-  try {
-    const product = new Product({
-      name,
-      category,
-      description,
-      price,
-      tags,
-    });
-
-    const savedProduct = await product.save();
-    res.status(201).json(savedProduct);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create product" });
-  }
-};
-
 const getAllProducts = async (req, res) => {
   try {
+    console.log('all products')
     const products = await Product.find();
     res.json(products);
+    console.log(products)
   } catch (error) {
     res.status(500).json({ error: "Could not fetch products" });
   }
@@ -72,7 +55,6 @@ const findRelatedProducts = async (req, res) => {
 };
 
 module.exports = {
-  createProduct,
   getAllProducts,
   getProductsByCategory,
   getSingleProductById,

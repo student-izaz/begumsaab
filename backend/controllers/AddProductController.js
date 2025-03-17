@@ -19,8 +19,10 @@ const upload = multer({ storage: storage });
 // File Upload Handler  
 const addProduct = async (req, res) => {
   const file = req.file.path;
+  
   try {
     const { name, category, price, description, tags } = req.body;
+    console.log( name, category, price, description, tags )
     const uploadRes = await cloudinary.uploader.upload(file, {
       timeout: 120000,
       resource_type: "auto",

@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
     const authorizationToken = token;
     const [userLoading, setUserLoading] = useState(true)
 
+    const API_URL = "http://localhost:5000";
+
     const logoutUser = () => {
         setToken("");
         return localStorage.removeItem("token");
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     const userAuthentication = async () => {
         setUserLoading(true)
         try {
-            const response = await fetch('http://localhost:5000/api/auth/user', {
+            const response = await fetch(`http://localhost:5000/api/auth/user`, {
                 method: 'GET',
                 headers: {
                     Authorization: authorizationToken,
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{  isLoggedIn, user, StoreTokenInLS, logoutUser, authorizationToken, userAuthentication, userLoading }}>
+        <AuthContext.Provider value={{  isLoggedIn, user, StoreTokenInLS, logoutUser, authorizationToken, userAuthentication, userLoading, API_URL }}>
             {children}
         </AuthContext.Provider>
     )

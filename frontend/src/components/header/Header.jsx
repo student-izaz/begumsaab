@@ -8,7 +8,7 @@ import { IoIosMenu } from "react-icons/io";
 
 
 const Header = ({toggleCart, toggleMobileMenu, cartItem}) => {
-
+  // console.log(cartItem.length)
   return (
     <header className="site-header">
       <div className="site-header-content">
@@ -37,7 +37,7 @@ const Header = ({toggleCart, toggleMobileMenu, cartItem}) => {
           </div>
           <div className="cart_icon icon" onClick={toggleCart}>
             <CiShoppingCart />
-            <span>{cartItem.length}</span>
+            <span>{cartItem?cartItem.length:0}</span>
           </div>
         </div>
       </div>

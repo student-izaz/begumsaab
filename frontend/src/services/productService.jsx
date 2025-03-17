@@ -7,7 +7,7 @@ export const fetchProductDetails = async (productId) => {
 
 export const fetchOriginalPakistanWear = async () => {
   const response = await fetch(
-    `http://localhost:5000/api/product-category/original-pakistani-suits`
+    `${process.env.API_URL}/api/product-category/original-pakistani-suits`
   );
   return response.json();
 };

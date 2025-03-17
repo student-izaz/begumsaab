@@ -6,6 +6,6 @@ const {adminLogin, addCategory, allProducts} = require('../controllers/adminCont
 
 router.post('/login', authenticate, adminMiddleware, adminLogin );
 router.post('/category/add', authenticate, adminMiddleware, addCategory );
-router.get('/all-products', authenticate, adminMiddleware, allProducts)
+router.get('/all-products', allProducts)
 
 module.exports = router;

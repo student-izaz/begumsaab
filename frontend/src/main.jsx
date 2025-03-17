@@ -12,12 +12,7 @@ import { AuthProvider } from './Store/auth.jsx';
 import Logout from './components/Logout/Logout.jsx';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage.jsx';
 import { ToastContainer } from 'react-toastify';
-import AdminLayout from './Admin/AdminLayout/AdminLayout.jsx';
-import AdminLogin from './Admin/AdminLogin/AdminLogin.jsx';
-import AdminDashboard from './Admin/AdminDashboard/AdminDashboard.jsx';
-import AddProduct from './Admin/AddProduct/AddProduct.jsx';
-import AllProducts from './Admin/AllProducts/AllProducts.jsx';
-import AddCategory from './Admin/AddCategory/AddCategory.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -58,37 +53,6 @@ const router = createBrowserRouter([
       },
     ]
   },
-  {
-    path: "/admin/login",
-    element: <AdminLogin/>
-  },
-  {
-    path: "/admin",
-    element: <AdminLayout/>,
-    children: [
-      {
-        path: "/admin",
-        element: <AdminDashboard/>
-      },
-      {
-        path: "add-product",
-        element: <AddProduct/>
-      },
-      {
-        path: "all-products",
-        element: <AllProducts/>
-      },
-      {
-        path: "add-category",
-        element: <AddCategory/>
-      },
-      {
-        path: "*",
-        element: <Error/>,
-      },
-      
-    ]
-  }
 ]);
 
 

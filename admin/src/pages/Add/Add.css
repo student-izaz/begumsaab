@@ -1,0 +1,27 @@
+.add-product{
+    width: 70%;
+    margin-left: max(5vw,25px);
+    margin-top: 50px;
+    color: #6d6d6d;
+    font-size: 18px;
+}
+.add-product form{
+    gap: 20px;
+}
+.add-img-upload img{
+    width: 1200px;
+}
+.product-name, .product-description, .product-price, .product-tags, .product-category{
+    width: max(40%,280px);
+}
+.product-name input, .product-category input, .product-price input, .product-tags input, .product-description textarea{
+    padding: 10px;
+}
+.add-btn{
+    width: 120px;
+    border: none;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}

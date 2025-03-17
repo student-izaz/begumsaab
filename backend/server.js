@@ -18,7 +18,7 @@ connectDB();
 
 // Enable CORS for your frontend URL
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "http://localhost:5174"],
   method: "GET, POST, DELETE, PATCH, PUT",
   Credential: true,
 };
@@ -28,8 +28,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
 
-
+// Authentication Routes
 app.use("/api/auth", authRoutes);
+
 app.use("/api/products", productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
