@@ -27,7 +27,6 @@ const App = () => {
         const response = await fetch(`${API_URL}/api/cart/${user._id}`);
         const data = await response.json()
         setCartItem(data.cartItems)
-        console.log(data)
       }
     }
   
