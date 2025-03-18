@@ -1,17 +1,18 @@
 // src/pages/ProductDetailPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProductDetails } from '../../services/productService';
 import SingleProduct from '../../components/SingleProduct/SingleProduct';
 import RelatedProducts from '../../components/RelatedProducts/RelatedProducts'
+import { AuthContext } from '../../Store/auth';
 
 const SingleProductPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  // console.log(product.category)
+  const {API_URL} = useContext(AuthContext)
   useEffect(() => {
     const getProduct = async () => {
-      const data = await fetchProductDetails(productId);
+      const data = await fetchProductDetails(productId,API_URL);
       setProduct(data);
     };
     getProduct();
