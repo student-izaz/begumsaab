@@ -3,11 +3,13 @@ import "./Cart.css";
 import CartMessage from "../CartMessage/CartMessage";
 import { useAuth } from "../../Store/auth";
 // import { getCartItems } from "../../services/cartservice";
+import { AuthContext } from '../../Store/auth';
 
 const Cart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
   const { user } = useAuth();
+  const {API_URL} = useContext(AuthContext)
 
   // Disable page scrolling when cart is open
   useEffect(() => {
@@ -25,7 +27,7 @@ const Cart = ({ isOpen, onClose }) => {
         try {
           const userId = user._id;
           const response = await fetch(
-            `http://localhost:5000/api/cart/${userId}`
+            `${API_URL}/api/cart/${userId}`
           );
           const data = await response.json();
 
@@ -47,7 +49,7 @@ const Cart = ({ isOpen, onClose }) => {
 
   const removeCartItem = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/remove`, {
+      const response = await fetch(`${API_URL}/api/cart/remove`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +88,7 @@ const Cart = ({ isOpen, onClose }) => {
     const userId = user._id;
     const itemId = item.productId._id;
     await fetch(
-      `http://localhost:5000/api/cart/updateItemQuantity/${itemId}/${userId}/${action}`
+      `${API_URL}/api/cart/updateItemQuantity/${itemId}/${userId}/${action}`
     );
   };
 
