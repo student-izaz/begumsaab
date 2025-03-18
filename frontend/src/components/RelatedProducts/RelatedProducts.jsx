@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SingleItem from "../SingleItem/SingleItem";
 import './RelatedProducts.css';
+import { AuthContext } from '../../Store/auth';
 
 const RelatedProducts = ({ product }) => {
-  // console.log(product)
+  const {API_URL} = useContext(AuthContext)
     
   const [relatedProducts, setRelatedProducts] = useState(null);
   const byCategory = product.category;
@@ -11,7 +12,7 @@ const RelatedProducts = ({ product }) => {
 
   const findRelatedProducts = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/products/related-products/${byCategory}/${id}`
+      `${API_URL}/api/products/related-products/${byCategory}/${id}`
     );
     const data = await response.json();
     if (response.ok) {
