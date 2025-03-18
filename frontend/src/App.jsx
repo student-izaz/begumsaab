@@ -13,8 +13,6 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const {user,API_URL} = useContext(AuthContext);
-  // const API_URL = import.meta.env.VITE_API_URL;
-  console.log(API_URL)
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -26,7 +24,7 @@ const App = () => {
   
     const getCartLength = async () => {
       if(user){
-        const response = await fetch(`http://localhost:5000/api/cart/${user._id}`);
+        const response = await fetch(`${API_URL}/api/cart/${user._id}`);
         const data = await response.json()
         setCartItem(data.cartItems)
         console.log(data)
