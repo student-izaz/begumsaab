@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { AiOutlineLoading } from "react-icons/ai";
 import { addToCart } from "../../services/cartservice";
