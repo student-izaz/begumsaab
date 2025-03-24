@@ -5,17 +5,19 @@ import { addToCart } from "../../services/cartservice";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Store/auth";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../Store/auth";
 
 const SingleItem = ({ products }) => {
   const [cartItemsIds, setcartItemsIds] = useState(null);
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loadingState, setLoadingState] = useState(null); // Track loading per product
+  const { API_URL } = useContext(AuthContext);
 
   const handleAddToCart = async (userId, productId, productName) => {
     try {
       setLoadingState(productId); // Set the loading state for the specific product
-      const data = await addToCart(userId, productId);
+      const data = await addToCart(userId, productId, API_URL);
       setcartItemsIds(data.products);
       toast.success('Item Added');
     } catch (error) {
