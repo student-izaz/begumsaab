@@ -143,3 +143,8 @@
   .term-condition span:hover {
     color: rgba(110, 0, 0, 1); /* Darker red */
   }
+@media screen and (max-width: 450px) {
+    .perform-auth-container{
+        padding: 0 10px;
+    }
+}
