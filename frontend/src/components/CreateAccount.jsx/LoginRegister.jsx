@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);  
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -41,7 +41,7 @@ const LoginRegister = () => {
         const login_data = await response.json();
         StoreTokenInLS(login_data.token);
         toast.success(login_data.msg);
-        setFormData({ name: "", email: "", password: "" });
+        setFormData({ username: "", email: "", password: "" });
         navigate('/');
       } else {
         const error_msg = await response.json();
@@ -109,8 +109,8 @@ const LoginRegister = () => {
                 <label htmlFor="name">Full Name*</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
                   required
                 />
