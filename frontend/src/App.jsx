@@ -34,8 +34,17 @@ const App = () => {
       getCartLength()
     },[user])
 
+    useEffect(() => {
+    const disableContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", disableContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", disableContextMenu);
+    };
+  }, []);
+
   return (
-    <div className="app">
+    <div className="app" style={{ userSelect: "none" }}>
         <TopMarque />
         <Header toggleCart={toggleCart} toggleMobileMenu={toggleMobileMenu} cartItem={cartItem}/>
         <MobileMenu isOpen={isMobileMenuOpen} onClose={toggleMobileMenu}/>
