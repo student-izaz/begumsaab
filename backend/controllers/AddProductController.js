@@ -22,7 +22,7 @@ const addProduct = async (req, res) => {
   
   try {
     const { name, category, price, description, tags } = req.body;
-    console.log( name, category, price, description, tags )
+    console.log( name, category, price, description, tags, file )
     const uploadRes = await cloudinary.uploader.upload(file, {
       timeout: 120000,
       resource_type: "auto",

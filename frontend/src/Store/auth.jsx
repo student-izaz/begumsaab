@@ -8,10 +8,10 @@ export const AuthProvider = ({ children }) => {
     const authorizationToken = token;
     const [userLoading, setUserLoading] = useState(true)
 
-    const API_URL =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:5000"
-      : "https://your-app-name.onrender.com";
+    const API_URL = process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "https://your-app-name.onrender.com"; // Change to your actual backend URL
+
 
     const logoutUser = () => {
         setToken("");
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     const userAuthentication = async () => {
         setUserLoading(true)
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/user`, {
+            const response = await fetch(`${API_URL}/api/auth/user`, {
                 method: 'GET',
                 headers: {
                     Authorization: authorizationToken,

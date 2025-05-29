@@ -16,15 +16,18 @@ dotenv.config();
 const app = express();
 connectDB();
 
-// Enable CORS for your frontend URL
-const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:5174"],
-  method: "GET, POST, DELETE, PATCH, PUT",
-  Credential: true,
-};
+app.use(
+  cors({
+    origin: ["http://localhost:5173"], // Allow frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow required methods
+    credentials: true, // Allow cookies if needed
+  })
+);
+
+// Middleware to allow preflight requests
+app.options("*", cors());
 
 app.use(express.urlencoded({ extended: false }));
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
 

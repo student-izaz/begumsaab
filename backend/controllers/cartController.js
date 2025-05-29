@@ -1,10 +1,9 @@
-// controllers/cartController.js
 const Cart = require('../models/Cart');
-const Products = require('../models/Product');
 
 // Add to Cart
 exports.addToCart = async (req, res) => {
   const { userId, productId } = req.body;
+
   try {
     let cart = await Cart.findOne({ userId });
     if (!cart) {

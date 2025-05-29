@@ -2,8 +2,10 @@ import React from 'react';
 import {useState} from 'react';
 
 const AddCategory = () => {
+  const [image, setImage] = useState(null);
+
     const [category, setCategory] = useState({
-      image: null,
+      image: image,
       categ_name: "",
     });
   

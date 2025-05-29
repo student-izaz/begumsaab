@@ -4,6 +4,6 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const {addProduct, upload} = require('../controllers/AddProductController');
 
-router.post('/add', authMiddleware, adminMiddleware, upload.single('image'), addProduct);
+router.post('/add', upload.single('image'), addProduct);
 
 module.exports = router;
