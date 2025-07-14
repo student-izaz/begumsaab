@@ -12,7 +12,7 @@ const SingleItem = ({ products }) => {
   const { user } = useAuth();
   const [loadingState, setLoadingState] = useState(null); // Track loading per product
 
-  const handleAddToCart = async (userId, productId, productName) => {
+  const handleAddToCart = async (userId, productId) => {
     try {
       setLoadingState(productId); // Set the loading state for the specific product
       const data = await addToCart(userId, productId);
