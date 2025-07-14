@@ -38,6 +38,7 @@ const LoginRegister = () => {
       const response = await fetch(url, { method, headers, body: JSON.stringify(payload) });
 
       if (response.ok) {
+        console.log(response)
         const login_data = await response.json();
         StoreTokenInLS(login_data.token);
         toast.success(login_data.msg);
