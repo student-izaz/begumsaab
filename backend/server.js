@@ -34,9 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
 app.use(express.static("public")); // Serve static files
 
 // Handle undefined routes
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "public", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
 
 
 // Authentication Routes
