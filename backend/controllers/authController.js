@@ -8,7 +8,6 @@ const register = async (req, res) => {
     const { username, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
-<<<<<<< HEAD
     if (userExists) {
       return res.status(400).json({ msg: "User already exists" });
     }
@@ -20,15 +19,6 @@ const register = async (req, res) => {
     await user.save();
 
     res.status(201).json({ msg: "Registered successfully" });
-=======
-    if(userExists){
-      return res.status(201).json({ msg: "User already exists..." }) 
-    }
-
-    const user = new User({ username, email, password });
-    await user.save();
-    res.status(201).json({ msg: "Registered Successfully" });
->>>>>>> 8638b3e9b3eb5f48e87f74eb5d6421f22505ab5d
   } catch (error) {
     console.error("Error in register:", error);
     res.status(500).json({ error: "Registration failed" });
