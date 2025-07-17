@@ -30,6 +30,13 @@ app.options("*", cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
+app.use(express.static("public")); // Serve static files
+
+// Handle undefined routes
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+
 
 // Authentication Routes
 app.use("/api/auth", authRoutes);

@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import CartMessage from "../CartMessage/CartMessage";
 import { AuthContext, useAuth } from "../../Store/auth";
 // import { getCartItems } from "../../services/cartservice";
+import { AuthContext } from '../../Store/auth';
 
 const Cart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
   const { user } = useAuth();
-  const {API_URL} = useContext(AuthContext);
 
   // Disable page scrolling when cart is open
   useEffect(() => {

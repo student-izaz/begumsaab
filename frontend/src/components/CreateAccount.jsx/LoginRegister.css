@@ -2,21 +2,10 @@
 .perform-auth-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    /* height: 100vh; */
-    padding: 50px;
-  }
-  
-  .auth-form {
-    width: 400px;
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    border: 2px dashed rgb(196, 194, 194); /* Dark red dotted border */
-  }
-  
-  /* Toggle Buttons */
-  .toggle-buttons {
+    margin-bottom: 100px;
+}
+.auth-form{
+    width: 75%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
@@ -122,31 +111,17 @@
   .lost_password {
     margin-top: 6px;
     color: rgba(170, 171, 116, 1);
-  }
-  
-  .lost_password:hover {
-    color: #333;
-  }
-  
-  /* Terms & Conditions */
-  .term-condition {
-    font-size: 14px;
-    color: rgb(90, 88, 88);
-    margin-bottom: 1rem;
-  }
-  
-  .term-condition span {
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .term-condition span:hover {
-    color: rgba(110, 0, 0, 1); /* Darker red */
-  }
+}
 
-  @media screen and (max-width: 45px) {
-    
-  .perform-auth-container{
-    padding: 0 15px;
-  }
+@media screen and (max-width: 800px) {
+    .auth-form{
+        flex-direction: column;
+        row-gap: 50px;
+
+    }
+}
+@media screen and (max-width: 450px) {
+    .auth-form{
+        width: 100%;
+    }
 }

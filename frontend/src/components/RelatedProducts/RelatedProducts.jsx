@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import SingleItem from "../SingleItem/SingleItem";
 import './RelatedProducts.css';
-import { AuthContext } from "../../Store/auth";
 
 const RelatedProducts = ({ product }) => {
   const {API_URL} = useContext(AuthContext)
