@@ -19,9 +19,9 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // Allow frontend domain
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow required methods
-    credentials: true, // Allow cookies if needed
+    origin: ["http://localhost:5173", "https://begumsaab.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
