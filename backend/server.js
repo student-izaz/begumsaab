@@ -18,7 +18,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: "https://begumsaab.vercel.app", // Allow frontend domain
+    origin: "https://begumsaab-student-izazs-projects.vercel.app", // Allow frontend domain
     methods: ["GET", "POST", "PUT", "DELETE"], // Allow required methods
     credentials: true, // Allow cookies if needed
   })
