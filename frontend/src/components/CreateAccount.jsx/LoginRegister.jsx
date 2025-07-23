@@ -40,7 +40,7 @@ const LoginRegister = () => {
       if (response.ok) {
         console.log(response)
         const login_data = await response.json();
-        StoreTokenInLS(login_data.token);
+        StoreTokenInLS(login_data.data.token);
         toast.success(login_data.msg);
         setFormData({ username: "", email: "", password: "" });
         navigate('/');
