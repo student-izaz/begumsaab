@@ -1,0 +1,152 @@
+/* Container */
+.perform-auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background: #f4f4f4;
+}
+
+/* Form wrapper */
+.auth-form {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Toggle buttons */
+.toggle-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.toggle-buttons button {
+  flex: 1;
+  padding: 12px 0;
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.toggle-buttons button.active {
+  background-color: rgba(85, 7, 0, 1);
+  color: white;
+}
+
+/* Headings */
+.form-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Input fields */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  margin-bottom: 20px;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+/* Form row */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.form-row input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.lost_password {
+  color: #777;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Buttons */
+.auth-form-btn {
+  width: 100%;
+  background-color: rgba(85, 7, 0, 1);
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.auth-form-btn:hover {
+  background-color:rgb(117, 17, 7);
+}
+
+/* Terms and conditions */
+.term-condition p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .auth-form {
+    padding: 30px 20px;
+  }
+
+  .toggle-buttons button {
+    font-size: 14px;
+  }
+
+  .form-heading {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .auth-form {
+    padding: 20px 15px;
+  }
+
+  .input-field input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .auth-form-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}

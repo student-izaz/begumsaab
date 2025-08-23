@@ -1,0 +1,11 @@
+.related-products{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 20px;
+    margin-bottom: 100px;
+}
+.related-products h2{
+    color: rgba(85, 7, 0, 1);
+}

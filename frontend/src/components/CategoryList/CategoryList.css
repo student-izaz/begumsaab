@@ -1,0 +1,16 @@
+.category-list{
+    width: 100%;
+    margin-bottom: 70px;
+}
+.show-all-categories .category a{
+    cursor: pointer;
+}
+.category-item{
+    margin-bottom: 3px;
+}
+
+@media screen and (max-width: 440px){
+    .category-item img{
+        border-radius: 5px;
+    }
+}

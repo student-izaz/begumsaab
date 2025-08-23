@@ -1,0 +1,117 @@
+.site-main{
+    width: 100%;
+    height: 520px;
+    padding: 20px;
+    background: linear-gradient(-30deg, #649af8, rgb(216, 45, 45));
+    margin-bottom: 10px;
+}
+.main-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.main-img{
+    width: 500px;
+    height: 250px;
+    border-radius: 14px;
+}
+.main-content .title{
+    margin-top: 6px;
+    font-size: 28px;
+    font-family: "Adamina";
+    font-weight: 100;
+}
+.main-content .description{
+    margin-top: 20px;
+}
+.main-content .description a{
+    font-size: 22px;
+    color: rgba(170, 171, 116, 1);;
+}
+.main-content .sale-btn .btn{
+    margin-top: 35px;
+    background-color: rgba(0, 0, 0, .1); 
+  color: white;               
+  padding: 12px 40px;  
+  border: 0;          
+  border-radius: 8px;         
+  cursor: pointer;            
+  font-size: 22px;        
+  transition: background-color 0.3s, color 0.3s; 
+  text-align: center;
+}
+.main-content .sale-btn .btn:hover{
+    background-color: #007bff;     
+    color: white;         
+}
+
+@media screen and (max-width: 375px){
+    .main-img{
+        width: 280px;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .site-main{
+        padding: 20px 20px 40px 20px;
+        height: auto;
+    }
+    .main-img{
+        width: 350px;
+        height: auto;
+    }
+    .main-content .description a{
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .site-main{
+        padding: 20px 20px 40px 20px;
+        height: auto;
+    }
+    .main-content .description a{
+        font-size: 16px;
+    }
+    .main-img{
+        width: 380px;
+        height: auto;
+    }
+}
+@media screen and (max-width: 425px) {
+    .main-img{
+        width: 350px;
+        height: auto;
+    }
+}
+@media screen and (max-width: 400px) {
+    .main-img{
+        width: 320px;
+        height: auto;
+    }
+}
+@media screen and (max-width: 370px) {
+    .main-img{
+        width: 280px;
+        height: auto;
+    }
+}
+@media screen and (max-width: 320px) {
+    .site-main{
+        padding: 20px 20px 40px 20px;
+        height: auto;
+    }
+    .main-content .description a{
+        font-size: 16px;
+    }
+    .main-img{
+        width: 250px;
+        height: auto;
+    }
+    .main-content .sale-btn .btn{
+        padding: 6px 20px;
+    }
+}

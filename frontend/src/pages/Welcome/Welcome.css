@@ -1,0 +1,47 @@
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+/* App Title */
+.app-title {
+  font-size: 3rem;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  display: flex;
+  gap: 2px;
+}
+
+/* Each character */
+.app-title span {
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
+  background: linear-gradient(180deg, rgb(85,0,0), rgb(200,0,0));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeUp 0.5s forwards;
+}
+@media screen and (max-width: 400px) {
+  .app-title {
+    font-size: 2rem;
+  }
+}
+
+/* Animations */
+@keyframes rotateIn {
+  from { transform: rotate(-90deg); opacity: 0; }
+  to   { transform: rotate(0deg); opacity: 1; }
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

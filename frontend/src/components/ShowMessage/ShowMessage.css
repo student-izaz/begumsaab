@@ -1,0 +1,11 @@
+.site-message{
+    text-align: center;
+    margin-top: 150px;
+    color: rgba(85, 7, 0, 1);
+}
+
+@media screen and (max-width: 400px){
+    .site-message{
+        font-size: 14px;
+    }
+}

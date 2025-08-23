@@ -1,0 +1,115 @@
+.sub-header{
+    padding: 30px 0 0 50px;
+}
+.site-single-product{
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    column-gap: 30px;
+    margin-bottom: 100px;
+}
+.single-product-details{
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.sub-header{
+    font-size: 14px;
+}
+.site-single-product img{
+    width: 700px;
+    height: 900px;
+    border-radius: 10px;
+}
+.single-product-details h1{
+    text-transform: capitalize;
+    color: rgba(85, 7, 0, 1);
+    font-family: 'Roboto';
+    font-weight: 200;
+}
+
+.product-price{
+    font-size: 24px;
+    color: #474747;
+}
+.product-price .org-price{
+    margin-right: 10px;
+    font-size: 24px;
+    text-decoration: line-through;
+}
+.single-product-details div{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.single-product-details div h6{
+    font-size: 13px;
+    color: green;
+}
+.single-product-details div hr{
+    margin: 10px 0;
+}
+.add-to-cart-btn{
+    font-size: 19px;
+    padding: 15px;
+    border: 0;
+    outline: none;
+    border-radius: 12px;
+    background-color: rgba(85, 0, 0, 1);
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    transition: .3s ease;
+}
+.add-to-cart-btn:hover{
+    background-color: #474747;
+}
+.add-to-cart-btn .icon{
+    font-size: 28px;
+    margin-right: 5px;
+}
+.single-product-details .category{
+    text-transform: capitalize;
+}
+.trust-badge-box{
+    height: 100px;
+}
+@media screen and (max-width: 600px){
+    .site-single-product{
+        flex-direction: column;
+        row-gap: 20px;
+        padding:  20px;
+    }
+    .sub-header{
+        padding: 20px 0 0 20px;
+    }
+    .trust-badge-box img{
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .site-single-product{
+        padding: 40px 20px;
+    }
+    .site-single-product img{
+        width: auto;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .site-single-product{
+        padding: 40px 20px;
+    }
+    .site-single-product img{
+        width: auto;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 340px){
+    .site-single-product img{
+        width: 250px;
+    }
+}

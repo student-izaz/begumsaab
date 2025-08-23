@@ -1,0 +1,24 @@
+.cart-message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 60px;
+}
+.cart-message .icon{
+    padding: 20px;
+    border-radius: 50%;
+    background: rgb(245, 243, 243);
+    font-size: 80px;
+}
+.cart-message p{
+    color: rgb(80, 79, 79);
+}
+.cart-message a{
+    padding: 10px 20px;
+    background-color: rgba(85, 7, 0, 1);
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+}

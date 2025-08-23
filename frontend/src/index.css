@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Adamina&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Adamina', sans-serif;
+  font-weight: 100;
+}
+a{
+  text-decoration: none;
+  color: #000;
+}
+img{
+  width: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+.app{
+  position: relative;
+}
+li{
+  list-style: none;
+}
+
+.flex{
+  display: flex;
+}
+.flex-col{
+  flex-direction: column;
+}
+.justify-center{
+  justify-content: center;
+}
+.align-center{
+  align-items: center;
+}
+.space-btw{
+  justify-content: space-between;
+}
+.gap-10{
+  gap: 10px;
+}
+.rg-10{
+  row-gap: 10px;
+}
+.rg-20{
+  row-gap: 20px;
+}
+.rg-40{
+  row-gap: 40px;
+}
+.cg-30{
+  column-gap: 30px;
+}
+.col-gap-10{
+  column-gap: 10px;
+}
+.py-10{
+  padding: 10px 0;
+}
+.py-20{
+  padding: 20px 0;
+}
+.px-4{
+  padding:0 4px;
+}
+.w-full{
+  width: 100%;
+}
+.bg-primary{
+  background-color: rgba(85, 7, 0, 1);
+}
+.text-white{
+  color: white;
+}
+.text-primary{
+  color: rgba(85, 7, 0, 1);
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Layer above everything except the cart sidebar */
+}
+.loading_icon{
+  animation: rotate-circle 0.8s linear infinite;
+}
+
+@keyframes rotate-circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
