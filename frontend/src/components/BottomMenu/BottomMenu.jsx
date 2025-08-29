@@ -10,20 +10,20 @@ const BottomMenu = () => {
     <div className="bottom-menu">
       <div className="bottom-menu-content">
         <nav>
-          <a href="/" className="icon">
+          <a href="/home" className="icon">
             <CiHome />
             <p className="bottom-menu-text">Home</p>
           </a>
-          <a href="/" className="icon">
+          <a href="/home" className="icon">
             <CiSearch  />
             <p className="bottom-menu-text">Search</p>
           </a>
-          <a href="/" className="icon">
+          <a href="/home" className="icon">
             <CiHeart />
             <p className="bottom-menu-text">Wishlist</p>
             <span className="wishlist">0</span>
           </a>
-          <a href="/" className="icon">
+          <a href="/home" className="icon">
             <PiBookLight />
             <p className="bottom-menu-text">Catalogue</p>
           </a>

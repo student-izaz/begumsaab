@@ -44,7 +44,7 @@ const LoginRegister = () => {
       if (result?.token) {
         StoreTokenInLS(result.token);
         toast.success(result.msg || "Login successful");
-        navigate("/");
+        navigate("/home");
       }
       setFormData({ username: "", email: "", password: "" });
     } else {

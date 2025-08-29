@@ -2,9 +2,8 @@ const Product = require("../models/Product");
 
 const getAllProducts = async (req, res) => {
   try {
-    console.log('all products')
     const products = await Product.find();
-    // res.json(products);
+    res.json(products);
     console.log(products)
   } catch (error) {
     res.status(500).json({ error: "Could not fetch products" });
@@ -16,7 +15,6 @@ const getProductsByCategory = async (req, res) => {
   try {
     const { category } = req.params; // Get category from URL parameters
     const products = await Product.find({ category }); // Find products by category
-    console.log("Product By Categroy: ",products)
     if (products.length === 0) {
       return res
         .status(404)

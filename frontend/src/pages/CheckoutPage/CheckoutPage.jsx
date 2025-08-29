@@ -6,9 +6,9 @@ import { toast } from "react-toastify";
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
-  const [totalAmount, setTotalAmount] = useState(0);  
-  const {user} = useAuth();
-  const {API_URL}= useContext(AuthContext)
+  const [totalAmount, setTotalAmount] = useState(0);
+  const { user } = useAuth();
+  const { API_URL } = useContext(AuthContext);
 
   const [checkoutInfo, setCheckoutInfo] = useState({
     first_name: user.username,
@@ -22,8 +22,6 @@ const CheckoutPage = () => {
     email: user.email,
     payment_mode: "",
   });
-
-  console.log(checkoutInfo.email) 
 
   const handleChange = (e) => {
     setCheckoutInfo({
@@ -40,70 +38,66 @@ const CheckoutPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(checkoutInfo),
       });
-    
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.msg || "Payment failed");
-    
+
       toast.success(data.msg);
     } catch (error) {
       toast.error(error.message);
     }
-
   };
 
   useEffect(() => {
-      if (!user) return
-        const fetchCartItems = async () => {
-          try {
-            const userId = user._id; 
-            const response = await fetch(`${API_URL}/api/cart/${userId}`);
-            const data = await response.json();
-          
-            if (response.ok) {
-              setCartItems(data.cartItems);
-            } else {
-              console.error(data.message);
-            }
-          } catch (error) {
-            console.error("Failed to fetch cart items", error);
-          } finally {
-            setLoading(false); // Set loading to false when fetch is complete
-          }
-        };
-  
-        fetchCartItems();
-      
-    }, [user]);
+    if (!user) return;
+    const fetchCartItems = async () => {
+      try {
+        const userId = user._id;
+        const response = await fetch(`${API_URL}/api/cart/${userId}`);
+        const data = await response.json();
 
-    // const amountDetail = () => {
-    //   let total = 0;
-    //   cartItems.map((item) => {
-    //     total+=item.productId.price 
-    //   })
-    //   return total;
-    // }
-    // useEffect(()=>{
-    //   amountDetail();
-    // })
+        if (response.ok) {
+          setCartItems(data.cartItems);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cart items", error);
+      } finally {
+        setLoading(false); // Set loading to false when fetch is complete
+      }
+    };
 
+    fetchCartItems();
+  }, [user]);
 
-useEffect(() => {
-  const calculateTotal = () => {
-    let total = 0;
-    cartItems.forEach((item) => {
-      total += item.productId.price * item.quantity;
-    });
-    setTotalAmount(total);
-  };
-  calculateTotal();
-}, [cartItems]); 
+  // const amountDetail = () => {
+  //   let total = 0;
+  //   cartItems.map((item) => {
+  //     total+=item.productId.price
+  //   })
+  //   return total;
+  // }
+  // useEffect(()=>{
+  //   amountDetail();
+  // })
 
+  useEffect(() => {
+    const calculateTotal = () => {
+      let total = 0;
+      cartItems.forEach((item) => {
+        total += item.productId.price * item.quantity;
+      });
+      setTotalAmount(total);
+    };
+    calculateTotal();
+  }, [cartItems]);
 
   return (
     <div className="checkout-container">
       <form className="checkout-form flex cg-30" onSubmit={handleSubmit}>
         <div className="personal_order_info flex flex-col rg-20">
-          <div className="form-row flex flex-col rg-10">
+          <div className="form-row rg-10">
             <label htmlFor="first-name">First name</label>
             <input
               type="text"
@@ -223,14 +217,15 @@ useEffect(() => {
               <p>PRODUCT</p>
               <p>SUBTOTAL</p>
             </div>
-            {
-              cartItems.map((item)=>(
-                <div key={item._id} className="order-review-row row-2 flex align-center space-btw">
-              <p className="product-name">{`${item.productId.name} x ${item.quantity}`}</p>
-              <p className="price">{item.productId.price*item.quantity}</p>
-            </div>
-              ))
-            }
+            {cartItems.map((item) => (
+              <div
+                key={item._id}
+                className="order-review-row row-2 flex align-center space-btw"
+              >
+                <p className="product-name">{`${item.productId.name} x ${item.quantity}`}</p>
+                <p className="price">{item.productId.price * item.quantity}</p>
+              </div>
+            ))}
             <div className="order-review-row flex align-center space-btw">
               <p className="text">Subtotal</p>
               <p className="subtotal">{totalAmount}</p>
@@ -247,18 +242,17 @@ useEffect(() => {
           <div className="checkout-payment flex flex-col rg-20">
             <ul className="flex flex-col rg-10">
               <li className="flex col-gap-10">
-
                 <input
-  type="radio"
-  name="payment_mode"
-  id="cash_on_delivery"
-  onChange={handleChange}
-  value="cash_on_delivery"
-  checked={checkoutInfo.payment_mode === "cash_on_delivery"}
-  required
-/>
+                  type="radio"
+                  name="payment_mode"
+                  id="cash_on_delivery"
+                  onChange={handleChange}
+                  value="cash_on_delivery"
+                  checked={checkoutInfo.payment_mode === "cash_on_delivery"}
+                  required
+                />
 
-                <label htmlFor="">Cash on delivery</label>
+                <label htmlFor="cash_on_delivery">Cash on delivery</label>
               </li>
               <li className="flex col-gap-10">
                 <input
@@ -269,7 +263,7 @@ useEffect(() => {
                   value="CCAvenue"
                   required
                 />
-                <label htmlFor="">CCAvenue CCAvenue</label>
+                <label htmlFor="CCAvenue">CCAvenue CCAvenue</label>
               </li>
               <li className="flex col-gap-10">
                 <input
@@ -293,18 +287,19 @@ useEffect(() => {
               <p>
                 Your personal data will be used to process your order, support
                 your experience throughout this website, and for other purposes
-                described in our {" "}
+                described in our{" "}
                 <a href="#" className="privacy-policy-link">
                   privacy policy.
                 </a>
               </p>
             </div>
             <label className="flex col-gap-10">
-              <input type="checkbox" required/>
+              <input type="checkbox" required />
               <span className="term-and-condition-checkbox-text">
-                I have read and agree to the website 
+                I have read and agree to the website
                 <a href="#" className="term-and-condition-link">
-                 {" "} terms and conditions *
+                  {" "}
+                  terms and conditions *
                 </a>
               </span>
             </label>
