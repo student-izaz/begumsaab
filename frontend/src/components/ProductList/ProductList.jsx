@@ -3,6 +3,7 @@ import SingleItem from "../SingleItem/SingleItem";
 import { CiFilter } from "react-icons/ci";
 
 const ProductList = ({ products }) => {
+  console.log("Product List: ", products);
   return (
     <div className="category-product-content">
       <div className="content-sorting">
