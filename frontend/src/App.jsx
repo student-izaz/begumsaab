@@ -6,13 +6,10 @@ import Cart from "./components/CartItems/Cart";
 import MobileMenu from "./components/MobileMenu/MobileMenu";
 import TopMarque from "./components/TopMarque/TopMarque";
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from "./Store/auth";
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const [cartItem, setCartItem] = useState([]);
-  // const {user} = useContext(AuthContext);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -21,18 +18,6 @@ const App = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   }
-  
-    // const getCartLength = async () => {
-    //   if(user){
-    //     const response = await fetch(`http://localhost:5000/api/cart/${user._id}`);
-    //     const data = await response.json()
-    //     setCartItem(data.cartItems)
-    //   }
-    // }
-  
-    // useEffect(()=>{
-    //   getCartLength()
-    // },[user])
 
   return (
     <div className="app">

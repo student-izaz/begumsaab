@@ -41,6 +41,7 @@ const LoginRegister = () => {
     const result = await response.json();
 
     if (response.ok) {
+      console.log('response ok hai')
       if (result?.token) {
         StoreTokenInLS(result.token);
         toast.success(result.msg || "Login successful");

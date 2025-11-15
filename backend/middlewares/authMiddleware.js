@@ -5,7 +5,8 @@ const User = require('../models/User');
 
 const authenticate = async (req, res, next) => {
   const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ error: 'Access denied' });
+  console.log("Auth Middleware Token:", token);
+  if (!token) return res.status(401).json({ error: 'No Token provided' });
 
   try {
     const isVerified = jwt.verify(token, process.env.JWT_SECRET);
@@ -13,7 +14,7 @@ const authenticate = async (req, res, next) => {
     const userData = await User.findOne({ email: isVerified.email}).select({password: 0,});
 
     req.user = userData;
-    req.token = token;
+    req.token = token;  
     req.userId = userData._id;
 
     next();

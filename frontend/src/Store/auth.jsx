@@ -1,15 +1,37 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import {jwtDecode} from "jwt-decode";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); // ✅ FIX
+  // const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [userLoading, setUserLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
 
   const authorizationToken = token;
+
+  const checkTokenValidity = () => {
+  const token = localStorage.getItem("token");
+  if (!token) return false;
+
+  try {
+    const decoded = jwtDecode(token);
+    if (decoded.exp * 1000 < Date.now()) {
+      // token expired
+      localStorage.removeItem("token");
+      return false;
+    }
+    return true;
+  } catch (error) {
+    localStorage.removeItem("token");
+    return false;
+  }
+};
+
+const isLoggedIn = checkTokenValidity();
+
 
   const API_URL =
     process.env.NODE_ENV === "development"
@@ -21,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   // -------------------
   const logoutUser = () => {
     setToken("");
-    setIsLoggedIn(false); // ✅ FIX
+    // setIsLoggedIn(false); 
     localStorage.removeItem("token");
     setUser("");
     setCartItems([]);
@@ -30,7 +52,7 @@ export const AuthProvider = ({ children }) => {
   const StoreTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken);
-    setIsLoggedIn(true); // ✅ FIX
+    // setIsLoggedIn(true);
   };
 
   const userAuthentication = async () => {
@@ -48,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
       setUser(data); 
 
-      // ✅ directly cart bhi le aao yahin pe
+      //s directly cart bhi le aao yahin pe
       if (data._id) {
         await fetchCart(data._id);
       }

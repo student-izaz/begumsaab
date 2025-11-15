@@ -45,7 +45,7 @@ const login = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "30d",
+        expiresIn: "1d",
       }
     );
     await User.updateOne({ _id: user._id }, { $set: { refreshToken: token } });
