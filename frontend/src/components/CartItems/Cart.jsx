@@ -116,13 +116,9 @@ const Cart = ({ isOpen, onClose }) => {
                 <p className="item-title">{item.productId.name}</p>
                 <div className="handle-item-price">
                   <div className="update-quantity">
-                    {item.quantity === 1 ? (
-                      ""
-                    ) : (
-                      <span onClick={() => updateQuantity(item, "decrease")}>
-                        -
-                      </span>
-                    )}
+                    <span onClick={() => updateQuantity(item, "decrease")}>
+                      -
+                    </span>
                     <p>{item.quantity}</p>
                     <span onClick={() => updateQuantity(item, "increase")}>
                       +

@@ -5,23 +5,31 @@ exports.addToCart = async (req, res) => {
   const { userId, productId } = req.body;
 
   try {
-    let cart = await Cart.findOne({ userId });
+    // Check if the product already exists
+    const cart = await Cart.findOneAndUpdate(
+      { userId, "products.productId": productId },
+      { $inc: { "products.$.quantity": 1 } },
+      { new: true }
+    ).populate("products.productId");
+
+    // If product was NOT found in cart → push new item
     if (!cart) {
-      cart = new Cart({ userId, products: [{ productId, quantity: 1 }] });
-    } else {
-      const productIndex = cart.products.findIndex((p) => p.productId.equals(productId));
-      if (productIndex > -1) {
-        cart.products[productIndex].quantity += 1;
-      } else {
-        cart.products.push({ productId, quantity: 1 });
-      }
+      const newCart = await Cart.findOneAndUpdate(
+        { userId },
+        { $push: { products: { productId, quantity: 1 } } },
+        { upsert: true, new: true }
+      ).populate("products.productId");
+
+      return res.status(200).json(newCart);
     }
-    await cart.save();
+
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ error: 'Server Error' });
+    console.log(error);
+    res.status(500).json({ error: "Server Error" });
   }
 };
+
 
 // Remove item from cart
 exports.removeFromCart = async (req, res) => {

@@ -18,7 +18,6 @@ const CategoryList = () => {
       setCategories(data);
       setLoading(false)
     };
-    console.log(categories)
     getCategories();
   }, []);
 

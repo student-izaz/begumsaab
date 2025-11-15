@@ -114,8 +114,7 @@ const isLoggedIn = checkTokenValidity();
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data)
-        setCartItems(data.cartItems || []);
+        setCartItems(data.products || []);
       }
     } catch (error) {
       console.error("Add to cart error:", error);
