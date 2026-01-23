@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 const authenticate = async (req, res, next) => {
   const token = req.header('Authorization');
-  console.log("Auth Middleware Token:", token);
+  // console.log("Auth Middleware Token:", token);
   if (!token) return res.status(401).json({ error: 'No Token provided' });
 
   try {

@@ -1,4 +1,5 @@
 const Cart = require('../models/Cart');
+const redisClient = require("../config/redis");
 
 // Add to Cart
 exports.addToCart = async (req, res) => {
@@ -59,14 +60,20 @@ exports.removeFromCart = async (req, res) => {
 exports.getCartItems = async (req, res) => {
   try {
       const { userId } = req.params;
+      const cashekey = `cart_items_${userId}`;
+      const cachedCartItems = await redisClient.get(cashekey);
+
+        if (cachedCartItems) {
+            return res.status(200).json({ cartItems: JSON.parse(cachedCartItems) });
+        }
 
       // Assuming Cart is a Mongoose model with a `products` array
       const cart = await Cart.findOne({ userId }).populate("products.productId");
+        await redisClient.set(cashekey, JSON.stringify(cart.products), "EX", 3600);
 
       if (!cart) {
           return res.status(404).json({ message: "Cart is empty" });
       }
-
       res.status(200).json({ cartItems: cart.products });
   } catch (error) {
       res.status(500).json({ message: "Failed to fetch cart items", error });

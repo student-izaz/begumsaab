@@ -1,4 +1,5 @@
 const Category = require('../models/Category');
+const redisClient = require("../config/redis");
 
 // Create a new category
 const createCategory = async (req, res) => {
@@ -15,7 +16,14 @@ const createCategory = async (req, res) => {
 // Get all categories
 const getAllCategories = async (req, res) => {
   try {
+    const cashekey = "all_categories";
+    const cachedCategories = await redisClient.get(cashekey);
+    if (cachedCategories) {
+      return res.json(JSON.parse(cachedCategories));
+    }
     const categories = await Category.find();
+    await redisClient.set(cashekey, JSON.stringify(categories), "EX", 3600);
+
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching categories', details: error.message });
@@ -35,7 +43,7 @@ const getCategoryById = async (req, res) => {
 };
 
 // Update a category by ID
-const updateCategory = async (req, res) => {
+const updateCategory = async (req, res) => {s
   try {
     const { id } = req.params;
     const { name, image } = req.body;

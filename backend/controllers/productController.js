@@ -1,10 +1,19 @@
 const Product = require("../models/Product");
+const redisClient = require("../config/redis");
 
 const getAllProducts = async (req, res) => {
   try {
+    console.log('find products')
+    const cashekey = "all_products";
+    const cachedProducts = await redisClient.get(cashekey);
+    if (cachedProducts) {
+      console.log('redis hit')
+      return res.json(JSON.parse(cachedProducts));
+    }
     const products = await Product.find();
+    await redisClient.setex(cashekey, 3600, JSON.stringify(products));
     res.json(products);
-    console.log(products)
+    console.log('DB hit')
   } catch (error) {
     res.status(500).json({ error: "Could not fetch products" });
   }
