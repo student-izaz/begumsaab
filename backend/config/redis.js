@@ -1,22 +1,19 @@
 const { createClient } = require("redis");
 
-const isProd = process.env.NODE_ENV === "production";
+const isUpstash = !!process.env.REDIS_URL;
 
 const redisClient = createClient({
-  url: isProd
-    ? process.env.REDIS_URL               // Upstash (Render)
-    : "redis://127.0.0.1:6379",            // Local Redis
+  url: isUpstash
+    ? process.env.REDIS_URL
+    : "redis://127.0.0.1:6379",
 
-  socket: isProd
-    ? {
-        tls: true,
-        rejectUnauthorized: false,
-      }
+  socket: isUpstash
+    ? { tls: true, rejectUnauthorized: false }
     : undefined,
 });
 
 redisClient.on("connect", () => {
-  console.log(`🟢 Redis connected (${isProd ? "PROD" : "LOCAL"})`);
+  console.log(`🟢 Redis connected (${isUpstash ? "UPSTASH" : "LOCAL"})`);
 });
 
 redisClient.on("error", (err) => {
