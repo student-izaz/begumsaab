@@ -11,6 +11,7 @@ const originalPakistanWearRoutes = require('./routes/originalPakistanWearRoutes'
 const AddProductRoutes = require('./routes/AddProductRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
+const path = require("path");
 
 dotenv.config();
 const app = express();
@@ -32,6 +33,15 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+app.get("/redis-test", async (req, res) => {
+  try {
+    await redisClient.set("test", "ok", { EX: 10 });
+    const val = await redisClient.get("test");
+    res.json({ redis: val });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // Authentication Routes
 app.use("/api/auth", authRoutes);
