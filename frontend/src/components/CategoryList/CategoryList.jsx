@@ -18,7 +18,6 @@ const CategoryList = () => {
     const getCategories = async () => {
       try {
         const data = await fetchCategories(API_URL);
-
         let categoryList = [];
 
         // 🛡️ SAFETY CHECK

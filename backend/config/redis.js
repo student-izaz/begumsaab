@@ -1,19 +1,22 @@
 const { createClient } = require("redis");
 
+const isProd = process.env.NODE_ENV === "production";
+
 const redisClient = createClient({
-  url: process.env.REDIS_URL,
-  socket: {
-    tls: true,
-    rejectUnauthorized: false, // REQUIRED for Upstash
-  },
+  url: isProd
+    ? process.env.REDIS_URL               // Upstash (Render)
+    : "redis://127.0.0.1:6379",            // Local Redis
+
+  socket: isProd
+    ? {
+        tls: true,
+        rejectUnauthorized: false,
+      }
+    : undefined,
 });
 
 redisClient.on("connect", () => {
-  console.log("🟢 Redis connected (TLS)");
-});
-
-redisClient.on("ready", () => {
-  console.log("🚀 Redis ready");
+  console.log(`🟢 Redis connected (${isProd ? "PROD" : "LOCAL"})`);
 });
 
 redisClient.on("error", (err) => {
@@ -22,7 +25,9 @@ redisClient.on("error", (err) => {
 
 (async () => {
   try {
-    await redisClient.connect();
+    if (!redisClient.isOpen) {
+      await redisClient.connect();
+    }
   } catch (err) {
     console.error("❌ Redis connect failed:", err.message);
   }
