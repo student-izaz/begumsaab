@@ -25,57 +25,6 @@ const Cart = ({ isOpen, onClose }) => {
     return () => (document.body.style.overflow = "auto");
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     const fetchCartItems = async () => {
-  //       try {
-  //         const userId = user._id;
-  //         const response = await fetch(
-  //           `${API_URL}/api/cart/${userId}`
-  //         );
-  //         const data = await response.json();
-
-  //         if (response.ok) {
-  //           setCartItems(data.cartItems);
-  //         } else {
-  //           console.error(data.message);
-  //         }
-  //       } catch (error) {
-  //         console.error("Failed to fetch cart items", error);
-  //       } finally {
-  //         setLoading(false); // Set loading to false when fetch is complete
-  //       }
-  //     };
-
-  //     fetchCartItems();
-  //   }
-  // }, [user, cartItems]);
-
-  // const removeCartItem = async (productId) => {
-  //   try {
-  //     const response = await fetch(`${API_URL}/api/cart/remove`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         userId: user._id,
-  //         productId,
-  //       }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       setCartItems(data.cartItems); // Update state after removal
-  //     } else {
-  //       console.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to remove item from cart", error);
-  //   }
-  // };
-
   const findSubTotal = () => {
     let subTotal = 0;
     cartItems.map((item) => {

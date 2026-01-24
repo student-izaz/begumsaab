@@ -81,10 +81,8 @@ const isLoggedIn = checkTokenValidity();
   }
 };
 
-
-  // -------------------
   // Cart Functions
-  // -------------------
+ 
   const fetchCart = async (userId = user?._id) => {
   if (!authorizationToken || !userId) return;  
   try {

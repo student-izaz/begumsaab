@@ -4,11 +4,11 @@ import { AuthContext, useAuth } from "../../Store/auth";
 import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
   const [totalAmount, setTotalAmount] = useState(0);
   const { user } = useAuth();
-  const { API_URL } = useContext(AuthContext);
+  const { API_URL, cartItems } = useContext(AuthContext);
 
   const [checkoutInfo, setCheckoutInfo] = useState({
     first_name: user.username,
@@ -33,7 +33,7 @@ const CheckoutPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/api/checkout/payment`, {
+      const response = await fetch(`${API_URL}/checkout/payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(checkoutInfo),
@@ -48,28 +48,29 @@ const CheckoutPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!user) return;
-    const fetchCartItems = async () => {
-      try {
-        const userId = user._id;
-        const response = await fetch(`${API_URL}/api/cart/${userId}`);
-        const data = await response.json();
+  // useEffect(() => {
+  //   if (!user) return;
+  //   const fetchCartItems = async () => {
+  //     try {
+  //       const userId = user._id;
+  //       const response = await fetch(`${API_URL}/api/cart/${userId}`);
+  //       const data = await response.json();
+  //       console.log(data)
 
-        if (response.ok) {
-          setCartItems(data.cartItems);
-        } else {
-          console.error(data.message);
-        }
-      } catch (error) {
-        console.error("Failed to fetch cart items", error);
-      } finally {
-        setLoading(false); // Set loading to false when fetch is complete
-      }
-    };
+  //       if (response.ok) {
+  //         setCartItems(data.cartItems);
+  //       } else {
+  //         console.error(data.message);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch cart items", error);
+  //     } finally {
+  //       setLoading(false); // Set loading to false when fetch is complete
+  //     }
+  //   };
 
-    fetchCartItems();
-  }, [user]);
+  //   fetchCartItems();
+  // }, [user]);
 
   // const amountDetail = () => {
   //   let total = 0;
