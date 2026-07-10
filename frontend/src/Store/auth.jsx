@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
       });
       if (res.ok) {
         const data = await res.json();
-        setCartItems(data.products || []);
+        setCartItems(data.cartItems || []);
       }
     } catch (error) {
       console.error("Add to cart error:", error);
