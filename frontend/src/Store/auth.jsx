@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const AuthContext = createContext();
 
@@ -12,25 +12,24 @@ export const AuthProvider = ({ children }) => {
   const authorizationToken = token;
 
   const checkTokenValidity = () => {
-  const token = localStorage.getItem("token");
-  if (!token) return false;
+    const token = localStorage.getItem("token");
+    if (!token) return false;
 
-  try {
-    const decoded = jwtDecode(token);
-    if (decoded.exp * 1000 < Date.now()) {
-      // token expired
+    try {
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        // token expired
+        localStorage.removeItem("token");
+        return false;
+      }
+      return true;
+    } catch (error) {
       localStorage.removeItem("token");
       return false;
     }
-    return true;
-  } catch (error) {
-    localStorage.removeItem("token");
-    return false;
-  }
-};
+  };
 
-const isLoggedIn = checkTokenValidity();
-
+  const isLoggedIn = checkTokenValidity();
 
   const API_URL =
     process.env.NODE_ENV === "development"
@@ -42,7 +41,7 @@ const isLoggedIn = checkTokenValidity();
   // -------------------
   const logoutUser = () => {
     setToken("");
-    // setIsLoggedIn(false); 
+    // setIsLoggedIn(false);
     localStorage.removeItem("token");
     setUser("");
     setCartItems([]);
@@ -55,53 +54,51 @@ const isLoggedIn = checkTokenValidity();
   };
 
   const userAuthentication = async () => {
-  setUserLoading(true);
-  try {
-    const response = await fetch(`${API_URL}/api/auth/user`, {
-      method: "GET",
-      headers: {
-        Authorization: authorizationToken,
-      },
-    });
+    setUserLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/api/auth/user`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
 
-    if (response.ok) {
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
 
-      setUser(data); 
+        setUser(data);
 
-      //s directly cart bhi le aao yahin pe
-      if (data._id) {
-        await fetchCart(data._id);
+        //s directly cart bhi le aao yahin pe
+        if (data._id) {
+          await fetchCart(data._id);
+        }
       }
+    } catch (error) {
+      console.error("Auth error:", error);
+    } finally {
+      setUserLoading(false);
     }
-  } catch (error) {
-    console.error("Auth error:", error);
-  } finally {
-    setUserLoading(false);
-  }
-};
+  };
 
   // Cart Functions
- 
-  const fetchCart = async (userId = user?._id) => {
 
-  if (!authorizationToken || !userId) return;  
-  try {
-    const res = await fetch(`${API_URL}/api/cart/${userId}`, {
+  const fetchCart = async (userId = user?._id) => {
+    if (!authorizationToken || !userId) return;
+    try {
+      const res = await fetch(`${API_URL}/api/cart/${userId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
-        },    });
-    if (res.ok) { 
-      const data = await res.json();
-      console.log(data);
-      setCartItems(data.cartItems || []);
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCartItems(data.cartItems || []);
+      }
+    } catch (error) {
+      console.error("Cart fetch error:", error);
     }
-  } catch (error) {
-    console.error("Cart fetch error:", error);
-  }
-};
-
+  };
 
   const addToCartItem = async (productId) => {
     try {
@@ -141,16 +138,29 @@ const isLoggedIn = checkTokenValidity();
     }
   };
 
- 
- useEffect(() => {
-  if (isLoggedIn && authorizationToken) {
-    // ✅ Only run once when user logs in
-    userAuthentication();
-  }
-}, [isLoggedIn, authorizationToken]);  // ✅ remove 'user' from deps
+  const updateQuantity = async (item, action) => {
+    const itemId = item.productId._id;
 
+    const res = await fetch(
+      `${API_URL}/api/cart/updateItemQuantity/${itemId}/${action}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      },
+    );
 
+    const data = await res.json();
+    setCartItems(data.cartItems);
+  };
 
+  useEffect(() => {
+    if (isLoggedIn && authorizationToken) {
+      // ✅ Only run once when user logs in
+      userAuthentication();
+    }
+  }, [isLoggedIn, authorizationToken]); // ✅ remove 'user' from deps
 
   return (
     <AuthContext.Provider
@@ -166,7 +176,8 @@ const isLoggedIn = checkTokenValidity();
         fetchCart,
         addToCartItem,
         removeFromCart,
-        cartItems
+        updateQuantity,
+        cartItems,
       }}
     >
       {children}

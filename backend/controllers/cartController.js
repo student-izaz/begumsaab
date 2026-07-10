@@ -173,9 +173,7 @@ exports.getCartItems = async (req, res) => {
 // Update Quantity
 //
 exports.updateCartItemQuantity = async (req, res) => {
-
   try {
-
     const userId = req.userId;
 
     const { itemId, action } = req.params;

@@ -9,7 +9,7 @@ const Cart = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(true); // Added loading state
   const { user } = useAuth();
 
-  const { cartItems, fetchCart, API_URL, removeFromCart } = useContext(AuthContext);
+  const { cartItems, fetchCart, API_URL, removeFromCart, updateQuantity } = useContext(AuthContext);
 
   useEffect(() => {
     fetchCart();
@@ -37,14 +37,22 @@ const Cart = ({ isOpen, onClose }) => {
     findSubTotal();
   }, []);
 
-  const updateQuantity = async (item, action) => {
-    const userId = user._id;
-    const itemId = item.productId._id;
-    await fetch(
-      `${API_URL}/api/cart/updateItemQuantity/${itemId}/${userId}/${action}`
-    );
-  };
-  
+  // const updateQuantity = async (item, action) => {
+  // const itemId = item.productId._id;
+
+  // const res = await fetch(
+  //   `${API_URL}/api/cart/updateItemQuantity/${itemId}/${action}`,
+    
+    
+  // );
+
+  // const data = await res.json();
+  // console.log(data);
+
+  // Agar response me cartItems aa rahe hain
+  // fetchCart();
+// };
+
   return (
     <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
       <button className="close-btn" onClick={onClose}>

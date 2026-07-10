@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
 import "./SingleProduct.css";
 import { AuthContext, useAuth } from "../../Store/auth";
+import { toast } from "react-toastify";
 
 const SingleProduct = ({ product }) => {
   const {user} = useAuth();
   const {addToCartItem} = useContext(AuthContext);
+  
   const handleAddToCart = async (productId) => {
     const data = await addToCartItem(productId);
-    alert(`Item add in cart`);
+    toast.success('Item Added');
   };
   
   return (
