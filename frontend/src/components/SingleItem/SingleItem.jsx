@@ -14,14 +14,12 @@ const SingleItem = ({ products }) => {
   const [loadingState, setLoadingState] = useState(null); // Track loading per product
   const { addToCartItem } = useContext(AuthContext);
 
-  const handleAddToCart = async (userId, productId) => {
+  const handleAddToCart = async (productId) => {
 
     try {
       setLoadingState(productId); // Set the loading state for the specific product
-      const data = await addToCartItem(userId, productId);
-      console.log(data)
-      // setcartItemsIds(data.products);
-      // toast.success('Item Added');
+      const data = await addToCartItem(productId);
+      toast.success('Item Added');
     } catch (error) {
       console.error("Error adding to cart:", error);
       toast.error("Failed to add item. Please try again.");
@@ -51,7 +49,7 @@ const SingleItem = ({ products }) => {
                 <span className="price">{`₹ ${item.price}`}</span>
                 <button
                   className="add-to-cart-btn"
-                  onClick={() => handleAddToCart(user._id, item._id)}
+                  onClick={() => handleAddToCart(item._id)}
                   disabled={loadingState === item._id} // Disable button if loading
                 >
                   {loadingState === item._id ? (

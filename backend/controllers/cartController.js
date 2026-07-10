@@ -1,111 +1,261 @@
-const Cart = require('../models/Cart');
+const Cart = require("../models/Cart");
 const redisClient = require("../config/redis");
 
-// Add to Cart
-exports.addToCart = async (req, res) => {
-  const { userId, productId } = req.body;
+const getCacheKey = (userId) => `cart_items_${userId}`;
 
+//
+// Add To Cart
+//
+exports.addToCart = async (req, res) => {
   try {
-    // Check if the product already exists
-    const cart = await Cart.findOneAndUpdate(
+    const userId = req.userId;
+    const { productId } = req.body;
+
+    let cart = await Cart.findOneAndUpdate(
       { userId, "products.productId": productId },
-      { $inc: { "products.$.quantity": 1 } },
-      { new: true }
+      {
+        $inc: {
+          "products.$.quantity": 1,
+        },
+      },
+      {
+        new: true,
+      }
     ).populate("products.productId");
 
-    // If product was NOT found in cart → push new item
     if (!cart) {
-      const newCart = await Cart.findOneAndUpdate(
+      cart = await Cart.findOneAndUpdate(
         { userId },
-        { $push: { products: { productId, quantity: 1 } } },
-        { upsert: true, new: true }
+        {
+          $push: {
+            products: {
+              productId,
+              quantity: 1,
+            },
+          },
+        },
+        {
+          upsert: true,
+          new: true,
+        }
       ).populate("products.productId");
-
-      return res.status(200).json(newCart);
     }
 
-    res.status(200).json(cart);
+    // Update Redis Cache
+    await redisClient.set(
+      getCacheKey(userId),
+      JSON.stringify(cart.products),
+      {
+        EX: 3600,
+      }
+    );
+
+    res.status(200).json({
+      message: "Product added successfully",
+      cartItems: cart.products,
+    });
+
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).json({
+      message: "Server Error",
+    });
   }
 };
 
-
-// Remove item from cart
+//
+// Remove From Cart
+//
 exports.removeFromCart = async (req, res) => {
   try {
-      const { userId, productId } = req.body;
 
-      // Find user's cart
-      const cart = await Cart.findOne({ userId });
+    const userId = req.userId;
+    const { productId } = req.body;
 
-      if (!cart) {
-          return res.status(404).json({ message: "Cart not found" });
-      }
+    const cart = await Cart.findOne({ userId }).populate("products.productId");
 
-      // Remove product
-      cart.products = cart.products.filter(item => item.productId.toString() !== productId);
-
-      await cart.save();
-
-      res.status(200).json({ message: "Item removed from cart", cartItems: cart.products });
-  } catch (error) {
-      res.status(500).json({ message: "Failed to remove item from cart", error });
-  }
-};
-
-
-// Get all cart items
-exports.getCartItems = async (req, res) => {
-  try {
-      const { userId } = req.params;
-      const cashekey = `cart_items_${userId}`;
-      const cachedCartItems = await redisClient.get(cashekey);
-
-        if (cachedCartItems) {
-            return res.status(200).json({ cartItems: JSON.parse(cachedCartItems) });
-        }
-
-      // Assuming Cart is a Mongoose model with a `products` array
-      const cart = await Cart.findOne({ userId }).populate("products.productId");
-        await redisClient.set(cashekey, JSON.stringify(cart.products), "EX", 3600);
-
-      if (!cart) {
-          return res.status(404).json({ message: "Cart is empty" });
-      }
-      res.status(200).json({ cartItems: cart.products });
-  } catch (error) {
-      res.status(500).json({ message: "Failed to fetch cart items", error });
-  }
-};
-
-// Update quantity of a product in the cart
-exports.updateCartItemQuantity = async (req, res) => {
-    try {
-        const { itemId, userId, action} = req.params; // Get user ID, product ID & action (+/-)
-
-        let updateQuery = {};
-        if (action === "increase") {
-            updateQuery = { $inc: { "products.$.quantity": 1 } }; // Increase quantity
-        } else if (action === "decrease") {
-            updateQuery = { $inc: { "products.$.quantity": -1 } }; // Decrease quantity
-        }
-
-        const updatedCart = await Cart.findOneAndUpdate(
-            { userId, "products.productId": itemId }, // Find cart of the user & product
-            updateQuery,
-            { new: true } // Return updated cart
-        );
-
-        if (!updatedCart) {
-            return res.status(404).json({ message: "Cart item not found!" });
-        }
-
-        res.json(updatedCart);
-    } catch (error) {
-        res.status(500).json({ message: "Server Error", error });
+    if (!cart) {
+      return res.status(404).json({
+        message: "Cart not found",
+      });
     }
+
+    cart.products = cart.products.filter(
+      (item) => item.productId._id.toString() !== productId
+    );
+
+    await cart.save();
+
+    // Update Cache
+    await redisClient.set(
+      getCacheKey(userId),
+      JSON.stringify(cart.products),
+      {
+        EX: 3600,
+      }
+    );
+
+    res.status(200).json({
+      message: "Item removed",
+      cartItems: cart.products,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
 };
 
+//
+// Get Cart Items
+//
+exports.getCartItems = async (req, res) => {
 
+  try {
+
+    const { userId } = req.params;
+
+    const cacheKey = getCacheKey(userId);
+
+    const cachedCart = await redisClient.get(cacheKey);
+
+    if (cachedCart) {
+
+      // console.log("Serving Cart From Redis");
+
+      return res.status(200).json({
+        cartItems: JSON.parse(cachedCart),
+      });
+
+    }
+
+    const cart = await Cart.findOne({ userId })
+      .populate("products.productId");
+
+    if (!cart) {
+      return res.status(404).json({
+        message: "Cart Empty",
+      });
+    }
+
+    await redisClient.set(
+      cacheKey,
+      JSON.stringify(cart.products),
+      {
+        EX: 3600,
+      }
+    );
+
+    console.log("Serving Cart From MongoDB");
+
+    res.status(200).json({
+      cartItems: cart.products,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
+
+};
+
+//
+// Update Quantity
+//
+exports.updateCartItemQuantity = async (req, res) => {
+
+  try {
+
+    const userId = req.userId;
+
+    const { itemId, action } = req.params;
+
+    let updateQuery = {};
+
+    if (action === "increase") {
+
+      updateQuery = {
+        $inc: {
+          "products.$.quantity": 1,
+        },
+      };
+
+    } else if (action === "decrease") {
+
+      updateQuery = {
+        $inc: {
+          "products.$.quantity": -1,
+        },
+      };
+
+    } else {
+
+      return res.status(400).json({
+        message: "Invalid action",
+      });
+
+    }
+
+    const updatedCart = await Cart.findOneAndUpdate(
+      {
+        userId,
+        "products.productId": itemId,
+      },
+      updateQuery,
+      {
+        new: true,
+      }
+    ).populate("products.productId");
+
+    if (!updatedCart) {
+
+      return res.status(404).json({
+        message: "Cart Item Not Found",
+      });
+
+    }
+
+    // Remove quantity <= 0
+
+    updatedCart.products = updatedCart.products.filter(
+      (item) => item.quantity > 0
+    );
+
+    await updatedCart.save();
+
+    // Update Redis
+
+    await redisClient.set(
+      getCacheKey(userId),
+      JSON.stringify(updatedCart.products),
+      {
+        EX: 3600,
+      }
+    );
+
+    res.status(200).json({
+      message: "Quantity Updated",
+      cartItems: updatedCart.products,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
+
+};

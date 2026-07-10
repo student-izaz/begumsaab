@@ -9,7 +9,7 @@ const Cart = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(true); // Added loading state
   const { user } = useAuth();
 
-  const { cartItems, fetchCart, API_URL } = useContext(AuthContext);
+  const { cartItems, fetchCart, API_URL, removeFromCart } = useContext(AuthContext);
 
   useEffect(() => {
     fetchCart();
@@ -44,7 +44,7 @@ const Cart = ({ isOpen, onClose }) => {
       `${API_URL}/api/cart/updateItemQuantity/${itemId}/${userId}/${action}`
     );
   };
-
+  
   return (
     <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
       <button className="close-btn" onClick={onClose}>

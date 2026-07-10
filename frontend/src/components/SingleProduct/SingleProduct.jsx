@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import "./SingleProduct.css";
-import { addToCart } from "../../services/cartservice";
 import { AuthContext, useAuth } from "../../Store/auth";
 
 const SingleProduct = ({ product }) => {
   const {user} = useAuth();
-  const {API_URL} = useContext(AuthContext);
-  const handleAddToCart = async (userId, productId, productName) => {
-    const data = await addToCart(userId, productId, API_URL);
-    alert(`Item add in cart : ${productName}`);
+  const {addToCartItem} = useContext(AuthContext);
+  const handleAddToCart = async (productId) => {
+    const data = await addToCartItem(productId);
+    alert(`Item add in cart`);
   };
   
   return (
@@ -36,7 +35,7 @@ const SingleProduct = ({ product }) => {
         <button
           className="add-to-cart-btn"
           onClick={() =>
-            handleAddToCart(user._id, product._id, product.name)
+            handleAddToCart(product._id)
           }
         >
           Add To Cart

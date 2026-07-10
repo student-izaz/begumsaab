@@ -84,13 +84,17 @@ const isLoggedIn = checkTokenValidity();
   // Cart Functions
  
   const fetchCart = async (userId = user?._id) => {
+
   if (!authorizationToken || !userId) return;  
   try {
     const res = await fetch(`${API_URL}/api/cart/${userId}`, {
-      headers: { Authorization: authorizationToken },
-    });
-    if (res.ok) {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },    });
+    if (res.ok) { 
       const data = await res.json();
+      console.log(data);
       setCartItems(data.cartItems || []);
     }
   } catch (error) {
@@ -99,7 +103,7 @@ const isLoggedIn = checkTokenValidity();
 };
 
 
-  const addToCartItem = async (userId, productId) => {
+  const addToCartItem = async (productId) => {
     try {
       const res = await fetch(`${API_URL}/api/cart/add`, {
         method: "POST",
@@ -107,7 +111,7 @@ const isLoggedIn = checkTokenValidity();
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ userId, productId }),
+        body: JSON.stringify({ productId }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -120,13 +124,17 @@ const isLoggedIn = checkTokenValidity();
 
   const removeFromCart = async (productId) => {
     try {
-      const res = await fetch(`${API_URL}/api/cart/remove/${productId}`, {
+      const res = await fetch(`${API_URL}/api/cart/remove`, {
         method: "DELETE",
-        headers: { Authorization: authorizationToken },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify({ productId }),
       });
       if (res.ok) {
         const data = await res.json();
-        setCartItems(data.cart);
+        setCartItems(data.cartItems);
       }
     } catch (error) {
       console.error("Remove cart error:", error);
@@ -155,10 +163,10 @@ const isLoggedIn = checkTokenValidity();
         userAuthentication,
         userLoading,
         API_URL,
-        cartItems,
+        fetchCart,
         addToCartItem,
         removeFromCart,
-        fetchCart,
+        cartItems
       }}
     >
       {children}
